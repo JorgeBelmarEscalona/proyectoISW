@@ -15,5 +15,8 @@
   "bugs": {
     "url": "https://github.com/JorgeBelmarEscalona/proyectoISW/issues"
   },
-  "homepage": "https://github.com/JorgeBelmarEscalona/proyectoISW#readme"
+  "homepage": "https://github.com/JorgeBelmarEscalona/proyectoISW#readme",
+  "dependencies": {
+    "dotenv": "^16.3.1"
+  }
 }
