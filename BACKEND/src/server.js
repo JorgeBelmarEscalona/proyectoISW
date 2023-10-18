@@ -17,7 +17,7 @@ const express = require('express');
 const app = express();
 
 // Agrega el middleware para el manejo de datos en formato JSON
-//app.use(express.json());
+app.use(express.json());
 
 //app.use(indexRouters);
 
