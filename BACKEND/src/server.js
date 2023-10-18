@@ -8,7 +8,7 @@ const { PORT } = configEnv();
 const indexRouters = require('./routes/index.js'); 
 
 // Importa el archivo 'configDB.js' para crear la conexiÃ³n a la base de datos
-require('./configDB.js');
+//require('./configDB.js');
 
 // Importa el mÃ³dulo 'express' para crear la aplicaciÃ³n web
 const express = require('express');
@@ -17,9 +17,9 @@ const express = require('express');
 const app = express();
 
 // Agrega el middleware para el manejo de datos en formato JSON
-app.use(express.json());
+//app.use(express.json());
 
-app.use(indexRouters);
+//app.use(indexRouters);
 
 // Define una ruta para la pÃ¡gina principal de la aplicaciÃ³n ('/')
 // Esta ruta responde con un mensaje de "Hola Mundo" cuando se accede a ella
