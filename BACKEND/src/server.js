@@ -8,7 +8,7 @@ const { PORT } = configEnv();
 const indexRouters = require('./routes/index.js'); 
 
 // Importa el archivo 'configDB.js' para crear la conexiÃ³n a la base de datos
-//require('./configDB.js');
+require('./configDB.js');
 
 // Importa el mÃ³dulo 'express' para crear la aplicaciÃ³n web
 const express = require('express');
