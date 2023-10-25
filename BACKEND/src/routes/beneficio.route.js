@@ -14,5 +14,7 @@ router.post('/CREATE', beneficioController.createBeneficio);
 router.put('/UPDATE/:id',beneficioController.updateBeneficio); 
 router.delete('/DELETE/:id',beneficioController.deleteBeneficio);
 
+
+
 // Exporta el enrutador 
 module.exports = router;
