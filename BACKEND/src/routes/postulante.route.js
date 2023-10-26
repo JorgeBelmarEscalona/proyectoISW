@@ -4,7 +4,7 @@ const postulante = require('../models/postulante.model');
 const { getAllPostulantes, getAllPostulantesBysubsidio_E, eliminarPostulantes } = require("../controllers/postulante.controller");
 const { getAllPostulantes, eliminarPostulantes } = require('../controllers/postulante.controller');
 
-// Ruta para registrar un nuevo implemento
+// Ruta para registrar un nuevo postulante
 
 router.post('/postulante', async (req, res) => {
     try {
