@@ -1,7 +1,5 @@
 const postulante = require('../models/postulante');
 const postulante = require('../models/postulante.model');
-const postulante = require('../models/postulante.model');
-const postulante = require('../models/postulante.model');
 
 // Controlador para crear un nuevo implemento
 const createPostulante = async (req, res) => {
