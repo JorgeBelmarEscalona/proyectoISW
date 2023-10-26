@@ -38,16 +38,18 @@ exports.createBeneficio = async (req, res) => {
 // DELETE /beneficios/:id - Delete a beneficio by id
 exports.deleteBeneficio = async (req, res) => {
     try {
-        const beneficio = await Beneficio.findById(req.params.id);
-        if (!beneficio) {
-            return res.status(404).json({ message: 'Beneficio no encontrado' });
-        }
-        await beneficio.findByIdandDelete();
-        res.status(200).json({ message: 'Eliminado exitosamente' });
-    } catch (err) {
-        res.status(500).json({ message: err.message });
+      const beneficioId = req.params.id;
+  
+      const deletedBeneficio = await Beneficio.findByIdAndRemove( beneficioId);
+      if (!deletedBeneficio) {
+        res.status(404).json({ message: 'Registro de Beneficio no encontrado' });
+      } else {
+        res.status(200).json({ message: 'Registro de Beneficio eliminado correctamente' });
+      }
+    } catch (error) {
+      res.status(500).json({ message: error.message });
     }
-};
+  };
 
 // PUT /beneficios/:id - Update a beneficio by id
 exports.updateBeneficio = async (req, res) => {
