@@ -116,10 +116,34 @@ exports.updateBeneficio = async (req, res) => {
         if (!beneficio) {
             return res.status(404).json({ message: 'Beneficio no encontrado' });
         }
-        Object.assign(beneficio, req.body);
-        const updatedBeneficio = await beneficio.save();
-        res.status(200).json(updatedBeneficio);
+
+        const { monto_b, type_b, ...updatedFields } = req.body;
+        const tipoBeneficio = type_b ? type_b.toLowerCase() : beneficio.type_b.toLowerCase();
+
+//Si es que el tipo de beneficio es utilidades, vivienda o alimentacion se verifica si el monto ingresado es válido para el tipo de beneficio proporcionado
+        if (tipoBeneficio === "utilidades" || tipoBeneficio === "vivienda" || tipoBeneficio === "alimentacion") {
+            if (
+                (tipoBeneficio === "utilidades" && (!monto_b || (monto_b >= 1000 && monto_b <= 5000000))) ||
+                (tipoBeneficio === "vivienda" && (!monto_b || (monto_b >= 7269430 && monto_b <= 79903670))) ||
+                (tipoBeneficio === "alimentacion" && (!monto_b || (monto_b >= 5000 && monto_b <= 1000000)))
+            ) {
+                // Actualizar los campos proporcionados
+                Object.assign(beneficio, updatedFields);
+                if (type_b) beneficio.type_b = type_b; // Actualizar type_b si se proporciona
+                if (monto_b) beneficio.monto_b = monto_b; // Actualizar monto_b si se proporciona
+
+                const updatedBeneficio = await beneficio.save();
+                res.status(200).json(updatedBeneficio);
+            } else {
+                res.status(400).json({ message: 'El monto ingresado no es válido para el tipo de beneficio proporcionado' });
+            }
+        } else {
+            res.status(400).json({ message: 'Tipo de beneficio no válido' });
+        }
     } catch (err) {
         res.status(500).json({ message: err.message });
     }
 };
+
+
+
