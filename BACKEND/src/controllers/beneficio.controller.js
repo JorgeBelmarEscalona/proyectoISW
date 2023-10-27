@@ -43,31 +43,52 @@ exports.getBeneficioById = async (req, res) => {
     }
 };
 
+
+
+
 // POST /beneficios - Create a new beneficio
 exports.createBeneficio = async (req, res) => {
     const beneficio = new Beneficio(req.body);
-    
-    
+
     try {
+        const monto = req.body.monto_b;
+        const tipoBeneficio = req.body.type_b.toLowerCase();
 
+        //Se verifica si es que el tipo de beneficio es utilidades, vivienda o alimentacion
+        if (tipoBeneficio === "utilidades" || tipoBeneficio === "vivienda" || tipoBeneficio === "alimentacion") {
+            
+            //Se verifica si el monto ingresado es válido para el tipo de beneficio proporcionado
+            if (tipoBeneficio === "utilidades" && monto >= 1000 && monto <= 5000000) {
+                beneficio.fecha_b = moment(beneficio.fecha_b).format('DD-MM-YYYY');
+                const newBeneficio = await beneficio.save();
+                res.status(201).json({ message: 'Utilidad encontrada', beneficio: newBeneficio });
 
-        if (req.body.type_b.toLowerCase() === "utilidades") {
+            //Se verifica si el monto ingresado es válido para el tipo de beneficio proporcionado
+            } else if (tipoBeneficio === "vivienda" && monto >= 7269430 && monto <= 79903670) {
+                beneficio.fecha_b = moment(beneficio.fecha_b).format('DD-MM-YYYY');
+                const newBeneficio = await beneficio.save();
+                res.status(201).json({ message: 'Vivienda encontrada', beneficio: newBeneficio });
 
-
-            const newBeneficio = await beneficio.save();
-            res.status(201).json({ message: 'Agua encontrada', beneficio: newBeneficio });
+            //Se verifica si el monto ingresado es válido para el tipo de beneficio proporcionado
+            } else if (tipoBeneficio === "alimentacion" && monto >= 5000 && monto <= 1000000) {
+                beneficio.fecha_b = moment(beneficio.fecha_b).format('DD-MM-YYYY');
+                const newBeneficio = await beneficio.save();
+                res.status(201).json({ message: 'Alimentacion encontrada', beneficio: newBeneficio });
+            } else {
+                res.status(400).json({ message: 'El monto ingresado no es válido para el tipo de beneficio proporcionado' });
+            }
         } else {
-            const newBeneficio = await beneficio.save();
-            res.status(201).json(newBeneficio);
+            res.status(400).json({ message: 'Tipo de beneficio no válido' });
         }
-
-
-
-
     } catch (err) {
         res.status(400).json({ message: err.message });
     }
 };
+
+
+
+
+
 
 // DELETE /beneficios/:id - Delete a beneficio by id
 exports.deleteBeneficio = async (req, res) => {
@@ -84,6 +105,9 @@ exports.deleteBeneficio = async (req, res) => {
       res.status(500).json({ message: error.message });
     }
   };
+
+
+
 
 // PUT /beneficios/:id - Update a beneficio by id
 exports.updateBeneficio = async (req, res) => {
