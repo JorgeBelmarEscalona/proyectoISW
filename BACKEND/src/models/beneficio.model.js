@@ -24,11 +24,12 @@ const beneficioSchema = new mongoose.Schema({
       required: true,
       notnull: true,
     },
-    estado_b: {
-      type: String,
+    fecha_b: {
+      type: Date,
       required: true,
       notnull: true,
     },
+  
   });
 
   // Crea el modelo de datos 'beneficio' a partir del esquema 'beneficioSchema'

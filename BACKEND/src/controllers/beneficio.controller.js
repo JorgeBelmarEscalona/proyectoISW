@@ -28,8 +28,21 @@ exports.getBeneficioById = async (req, res) => {
 exports.createBeneficio = async (req, res) => {
     const beneficio = new Beneficio(req.body);
     try {
-        const newBeneficio = await beneficio.save();
-        res.status(201).json(newBeneficio);
+
+
+        if (req.body.type_b.toLowerCase() === "utilidades") {
+
+
+            const newBeneficio = await beneficio.save();
+            res.status(201).json({ message: 'Agua encontrada', beneficio: newBeneficio });
+        } else {
+            const newBeneficio = await beneficio.save();
+            res.status(201).json(newBeneficio);
+        }
+
+
+
+
     } catch (err) {
         res.status(400).json({ message: err.message });
     }
