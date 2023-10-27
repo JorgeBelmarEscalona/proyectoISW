@@ -1,15 +1,27 @@
 // Import the beneficio model
 const Beneficio = require('../models/beneficio.model');
+const moment = require('moment');
 
 // GET /beneficios - Get all beneficios
 exports.getBeneficio = async (req, res) => {
     try {
         const beneficios = await Beneficio.find();
-        res.status(200).json(beneficios);
+        
+        // Formatear la fecha_b de cada beneficio utilizando moment
+        const formattedBeneficios = beneficios.map(beneficio => {
+            return {
+                ...beneficio.toObject(),
+                fecha_b: moment(beneficio.fecha_b).format('DD-MM-YYYY')
+            };
+        });
+
+        res.status(200).json(formattedBeneficios);
     } catch (err) {
         res.status(500).json({ message: err.message });
     }
 };
+
+
 
 // GET /beneficios/:id - Get a single beneficio by id
 exports.getBeneficioById = async (req, res) => {
@@ -18,7 +30,14 @@ exports.getBeneficioById = async (req, res) => {
         if (!beneficio) {
             return res.status(404).json({ message: 'Beneficio no encontrado' });
         }
-        res.status(200).json(beneficio);
+
+        // Formatear la fecha_b utilizando moment
+        const formattedBeneficio = {
+            ...beneficio.toObject(),
+            fecha_b: moment(beneficio.fecha_b).format('DD-MM-YYYY')
+        };
+
+        res.status(200).json(formattedBeneficio);
     } catch (err) {
         res.status(500).json({ message: err.message });
     }
@@ -27,6 +46,8 @@ exports.getBeneficioById = async (req, res) => {
 // POST /beneficios - Create a new beneficio
 exports.createBeneficio = async (req, res) => {
     const beneficio = new Beneficio(req.body);
+    
+    
     try {
 
 
