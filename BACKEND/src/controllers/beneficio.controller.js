@@ -15,7 +15,7 @@ exports.getBeneficio = async (req, res) => {
             };
         });
 
-        res.status(200).json(formattedBeneficios);
+        res.status(302).json(formattedBeneficios);
     } catch (err) {
         res.status(500).json({ message: err.message });
     }
@@ -37,7 +37,7 @@ exports.getBeneficioById = async (req, res) => {
             fecha_b: moment(beneficio.fecha_b).format('DD-MM-YYYY')
         };
 
-        res.status(200).json(formattedBeneficio);
+        res.status(302).json(formattedBeneficio);
     } catch (err) {
         res.status(500).json({ message: err.message });
     }
@@ -117,10 +117,9 @@ exports.updateBeneficio = async (req, res) => {
             return res.status(404).json({ message: 'Beneficio no encontrado' });
         }
 
-        const { monto_b, type_b, ...updatedFields } = req.body;
+        const { monto_b, type_b, fecha_b, ...updatedFields } = req.body;
         const tipoBeneficio = type_b ? type_b.toLowerCase() : beneficio.type_b.toLowerCase();
 
-//Si es que el tipo de beneficio es utilidades, vivienda o alimentacion se verifica si el monto ingresado es válido para el tipo de beneficio proporcionado
         if (tipoBeneficio === "utilidades" || tipoBeneficio === "vivienda" || tipoBeneficio === "alimentacion") {
             if (
                 (tipoBeneficio === "utilidades" && (!monto_b || (monto_b >= 1000 && monto_b <= 5000000))) ||
@@ -129,8 +128,10 @@ exports.updateBeneficio = async (req, res) => {
             ) {
                 // Actualizar los campos proporcionados
                 Object.assign(beneficio, updatedFields);
+
                 if (type_b) beneficio.type_b = type_b; // Actualizar type_b si se proporciona
                 if (monto_b) beneficio.monto_b = monto_b; // Actualizar monto_b si se proporciona
+                if (fecha_b) beneficio.fecha_b = moment(fecha_b, 'DD-MM-YYYY').toDate(); // Actualizar fecha_b en el formato deseado
 
                 const updatedBeneficio = await beneficio.save();
                 res.status(200).json(updatedBeneficio);
@@ -144,6 +145,8 @@ exports.updateBeneficio = async (req, res) => {
         res.status(500).json({ message: err.message });
     }
 };
+
+
 
 
 
