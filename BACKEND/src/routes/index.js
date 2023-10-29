@@ -4,6 +4,7 @@ const express = require('express');
 
 // Importa el enrutador de usuarios
 const beneficioRoutes = require('./beneficio.route');
+const postulanteRoutes = require('./postulante.route');
 
 
 // Crea una instancia del enrutador
@@ -11,6 +12,7 @@ const router = express.Router();
 
 // Define las rutas para los usuarios /api/usuarios
 router.use('/beneficio', beneficioRoutes);
+router.use('/postulante', postulanteRoutes);
 
 // Exporta el enrutador
 module.exports = router;
