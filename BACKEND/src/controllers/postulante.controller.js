@@ -16,6 +16,7 @@ const createPostulante = async (req, res) => {
           discapacidad,
           subsidio_E,
           aprobado_B,
+          fechaCreacion: new Date()
       });
   
       // Guardar el implemento en la base de datos

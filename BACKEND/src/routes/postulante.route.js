@@ -20,6 +20,7 @@ router.post('/postulante', async (req, res) => {
         discapacidad,
         subsidio_E,
         aprobado_B,
+        fechaPostulacion: new Date()
       });
   
       // Guardar el postulante en la base de datos
