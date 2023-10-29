@@ -13,7 +13,6 @@ const postulanteSchema = new mongoose.Schema({
   direccion: {
     type: String,
     required: true,
-    unique: true,
   },
   sexo: {
     type: Boolean,
@@ -29,14 +28,18 @@ const postulanteSchema = new mongoose.Schema({
   },
   subsidio_E: {
     type: String,
-    required: true,
+    required: false,
   },    
   aprobado_B: {
     type: Boolean,
     required: false,
   },
   
-  fechaInscripcion: Date,
+  fechaPostulacion: {
+    type: Date,
+    default: Date.now,
+    required: true,
+  },
 });
 
 const postulante = mongoose.model('postulante', postulanteSchema);
