@@ -1,4 +1,3 @@
-const postulante = require('../models/postulante');
 const postulante = require('../models/postulante.model');
 
 // Controlador para crear un nuevo implemento
@@ -30,19 +29,19 @@ const createPostulante = async (req, res) => {
 
 // Controlador para obtener todos los postulantes
 const getAllPostulantes = async () => {
-    const postulante = await postulante.find();
-    return postulante;
+    const postulantes = await postulante.find();
+    return postulantes;
 };
 
 
 const getAllPostulantesBysubsidio_E = async (subsidio_E) => {
-  const postulante = await postulante.find({ subsidio_E });
-  return postulante;
+  const postulantes = await postulante.find({ subsidio_E });
+  return postulantes;
 };
 
 const eliminarPostulantes = async (rut) => {
-  const postulante = await postulante.deleteOne({ rut });
-  return postulante;
+  const postulantes = await postulante.deleteOne({ rut });
+  return postulantes;
 };
 
 module.exports = {

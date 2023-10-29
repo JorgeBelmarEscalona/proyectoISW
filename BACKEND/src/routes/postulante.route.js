@@ -2,7 +2,6 @@ const express = require('express');
 const router = express.Router();
 const postulante = require('../models/postulante.model');
 const { getAllPostulantes, getAllPostulantesBysubsidio_E, eliminarPostulantes } = require("../controllers/postulante.controller");
-const { getAllPostulantes, eliminarPostulantes } = require('../controllers/postulante.controller');
 
 // Ruta para registrar un nuevo postulante
 
@@ -34,8 +33,8 @@ router.post('/postulante', async (req, res) => {
 
 //busca y muestra todos las postulaciones 
 router.get('/postulante', async (req, res) => {
-    const postulante = await getAllPostulantes();
-    res.json(postulante)
+    const postulantes = await getAllPostulantes();
+    res.json(postulantes)
 
 })
 
@@ -44,8 +43,8 @@ router.get('/postulante', async (req, res) => {
 // busca un postulantes (por el parametro aprobado) 
 router.get('/postulante/buscar', async (req, res) => {
     const { aprobado_B } = req.query;
-    const postulante = await getAllPostulantesBysubsidio_E(aprobado_B);
-    res.json(postulante)
+    const postulantes = await getAllPostulantesBysubsidio_E(aprobado_B);
+    res.json(postulantes)
 })
 
 //busca las postulaciones por la id de la base de datos
@@ -56,8 +55,8 @@ router.get('/implementos/:id', async (req, res) => {
 //elimina postulantes por su _id de mongo
 router.delete('/postulante/:id', async (req, res) => {
     const { id } = req.params;
-    const postulante = await eliminarPostulantes(id);
-    res.json(postulante);
+    const postulantes = await eliminarPostulantes(id);
+    res.json(postulantes);
 })
 
 module.exports = router;
