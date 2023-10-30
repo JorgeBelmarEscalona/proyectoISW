@@ -30,7 +30,7 @@ const postulanteSchema = new mongoose.Schema({
   },
   fecha_nacimiento: {
     type: Date,
-    required: true,
+    required: false,
   },
   subsidio_E: {
     type: String,

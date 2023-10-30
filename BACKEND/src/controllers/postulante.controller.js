@@ -1,5 +1,5 @@
 const postulante = require('../models/postulante.model');
-const Rut = require('rutjs');
+const { validate } = require('rut.js');
 
 const handleResponse = (res, error, message, successMessage) => {
   if (error) {
@@ -16,23 +16,13 @@ const handleResponse = (res, error, message, successMessage) => {
 
 // Controlador para crear un nuevo implemento
 const createPostulante = async (nuevoPostulante) => {
-    
-  res.status(200).json({ message: 'Postulacion registrada correctamente' });
 
-  try {
-      res.status(200).json({ message: 'Postulacion registrada correctamente' });
-      if (!Rut.isValid(nuevoPostulante.rut)) {
-        throw new Error('RUT inválido');
-      }
-
-       //Guardar el implemento en la base de datos
-      await nuevoPostulante.save();
-  
-      res.status(200).json({ message: 'Postulacion registrada correctamente' });
-    } catch (error) {
-      res.status(500).json({ message: 'Error al registrar su Postulacion', error});
-    }
-  };
+  if (!validate(nuevoPostulante.rut)) {
+    throw new Error('RUT inválido');
+  }
+    //Guardar el implemento en la base de datos
+  await nuevoPostulante.save();
+};
 
 // Controlador para obtener todos los postulantes
 const getAllPostulantes = async (req, res) => {

@@ -7,11 +7,18 @@ const { createPostulante, getAllPostulantes, eliminarPostulantes, getPostulantes
 
 router.post('/postulante', async (req, res) => {
     try {
-      const { nombre, rut, direccion, sexo, estadoCivil, discapacidad, subsidio_E } = req.body;
-      
+      const { 
+        nombre,
+        rut,
+        direccion,
+        sexo,
+        estadoCivil,
+        discapacidad,
+        subsidio_E,
+        aprobado_B,
+      } = req.body;
       // Crear un nuevo postulante
       const nuevoPostulante = new postulante({
-        
         nombre,
         rut,
         direccion,
@@ -23,11 +30,10 @@ router.post('/postulante', async (req, res) => {
         fechaPostulacion: new Date()
       });
       
-  
       // Guardar el postulante en la base de datos
       await createPostulante(nuevoPostulante);
   
-      res.status(200).json({ message: ' Postulancion agregada correctamente' });
+      res.status(200).json({ message: ' Postulacion agregada correctamente' });
     } catch (error) {
       res.status(500).json({ message: 'Error al Ingresar Datos', error });
     }
@@ -35,14 +41,14 @@ router.post('/postulante', async (req, res) => {
 
 //busca y muestra todos las postulaciones 
 router.get('/postulante', async (req, res) => {
-    const postulantes = await getAllPostulantes();
+    const postulantes = await getAllPostulantes(req, res);
     res.json(postulantes)
 
 })
 
 
 // Devuelve los postulantes aprobados 
-router.get('/GET/aprobado',getPostulantesAprobados.getPostulantesAprobados);
+router.get('/GET/aprobado',getPostulantesAprobados);
 
 
 //busca las postulaciones por la id de la base de datos
