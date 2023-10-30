@@ -42,7 +42,7 @@ router.get('/postulante', async (req, res) => {
 
 
 // Devuelve los postulantes aprobados 
-router.get('/GET/aprobado/:id',getPostulantesAprobados.getPostulantesAprobados);
+router.get('/GET/aprobado',getPostulantesAprobados.getPostulantesAprobados);
 
 
 //busca las postulaciones por la id de la base de datos
