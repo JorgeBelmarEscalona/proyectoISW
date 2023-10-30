@@ -1,51 +1,58 @@
 const postulante = require('../models/postulante.model');
+const Rut = require('rutjs');
+
 
 // Controlador para crear un nuevo implemento
-const createPostulante = async (req, res) => {
+const createPostulante = async (nuevoPostulante) => {
     try {
-      const {nombre, rut, direccion, sexo, estadoCivil, discapacidad, subsidio_E, aprobado_B } = req.body;
-  
-      // Crear un nuevo postulante
-      const nuevoPostulante = new postulante({
-          nombre,
-          rut,
-          direccion,
-          sexo,
-          estadoCivil,
-          discapacidad,
-          subsidio_E,
-          aprobado_B,
-          fechaCreacion: new Date()
-      });
-  
+      if (!Rut.isValid(nuevoPostulante.rut)) {
+        throw new Error('RUT inválido');
+      }
+
       // Guardar el implemento en la base de datos
       await nuevoPostulante.save();
   
       res.status(200).json({ message: 'Postulacion registrada correctamente' });
     } catch (error) {
-      res.status(500).json({ message: 'Error al registrar su Postulacion' });
+      res.status(500).json({ message: 'Error al registrar su Postulacion', error});
     }
   };
 
 // Controlador para obtener todos los postulantes
-const getAllPostulantes = async () => {
-    const postulantes = await postulante.find();
-    return postulantes;
+const getAllPostulantes = async (req, res) => {
+try {
+  const postulantes = await postulante.find();
+  res.status(200).json(postulantes);
+} catch (error) {
+  handleResponse(res, error, null, 'Error al obtener los postulantes');
+}
 };
 
-
-const getAllPostulantesBysubsidio_E = async (subsidio_E) => {
+// Controlador para obtener postulantes por subsidio_E
+const getAllPostulantesBysubsidio_E = async (req, res) => {
+const { subsidio_E } = req.params;
+try {
   const postulantes = await postulante.find({ subsidio_E });
-  return postulantes;
+  res.status(200).json(postulantes);
+} catch (error) {
+  handleResponse(res, error, null, 'Error al obtener los postulantes por subsidio_E');
+}
 };
 
-const eliminarPostulantes = async (rut) => {
-  const postulantes = await postulante.deleteOne({ rut });
-  return postulantes;
+// Controlador para eliminar postulantes por rut
+const eliminarPostulantes = async (req, res) => {
+const { rut } = req.params;
+try {
+  const result = await postulante.deleteOne({ rut });
+  handleResponse(res, result, 'Postulante eliminado correctamente', 'Error al eliminar el postulante');
+} catch (error) {
+  handleResponse(res, error, null, 'Error al eliminar el postulante');
+}
 };
 
 module.exports = {
-  getAllPostulantes,
-  getAllPostulantesBysubsidio_E,
-  eliminarPostulantes
-}
+createPostulante,
+getAllPostulantes,
+getAllPostulantesBysubsidio_E,
+eliminarPostulantes,
+};

@@ -1,13 +1,13 @@
 const express = require('express');
 const router = express.Router();
 const postulante = require('../models/postulante.model');
-const { getAllPostulantes, getAllPostulantesBysubsidio_E, eliminarPostulantes } = require("../controllers/postulante.controller");
+const { createPostulante, getAllPostulantes, getAllPostulantesBysubsidio_E, eliminarPostulantes } = require("../controllers/postulante.controller");
 
 // Ruta para registrar un nuevo postulante
 
 router.post('/postulante', async (req, res) => {
     try {
-      const { } = req.body;
+      const { nombre, rut, direccion, sexo, estadoCivil, discapacidad, subsidio_E } = req.body;
   
       // Crear un nuevo postulante
       const nuevoPostulante = new postulante({
@@ -23,7 +23,7 @@ router.post('/postulante', async (req, res) => {
       });
   
       // Guardar el postulante en la base de datos
-      await nuevoPostulante.save();
+      await createPostulante(nuevoPostulante);
   
       res.status(200).json({ message: ' Postulancion agregada correctamente' });
     } catch (error) {
@@ -39,7 +39,6 @@ router.get('/postulante', async (req, res) => {
 })
 
 //modificable para cualquier parametro
-
 // busca un postulantes (por el parametro aprobado) 
 router.get('/postulante/buscar', async (req, res) => {
     const { aprobado_B } = req.query;

@@ -9,21 +9,23 @@ const postulanteSchema = new mongoose.Schema({
     type: String,
     required: true,
     unique: true,
+
   },
   direccion: {
     type: String,
     required: true,
   },
   sexo: {
-    type: Boolean,
+    type: String,
     required: true,
   },
   estadoCivil: {
     type: String,
     required: true,
+    
   },
   discapacidad: {
-    type: Boolean,
+    type: String,
     required: true,
   },
   subsidio_E: {
@@ -37,11 +39,10 @@ const postulanteSchema = new mongoose.Schema({
   
   fechaPostulacion: {
     type: Date,
-    default: Date.now,
+    default:  new Date(),
     required: true,
   },
 });
 
 const postulante = mongoose.model('postulante', postulanteSchema);
-
 module.exports = postulante;
