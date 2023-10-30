@@ -1,16 +1,17 @@
 const express = require('express');
 const router = express.Router();
 const postulante = require('../models/postulante.model');
-const { createPostulante, getAllPostulantes, getAllPostulantesBysubsidio_E, eliminarPostulantes } = require("../controllers/postulante.controller");
+const { createPostulante, getAllPostulantes, eliminarPostulantes, getPostulantesAprobados } = require("../controllers/postulante.controller");
 
 // Ruta para registrar un nuevo postulante
 
 router.post('/postulante', async (req, res) => {
     try {
       const { nombre, rut, direccion, sexo, estadoCivil, discapacidad, subsidio_E } = req.body;
-  
+      
       // Crear un nuevo postulante
       const nuevoPostulante = new postulante({
+        
         nombre,
         rut,
         direccion,
@@ -21,6 +22,7 @@ router.post('/postulante', async (req, res) => {
         aprobado_B,
         fechaPostulacion: new Date()
       });
+      
   
       // Guardar el postulante en la base de datos
       await createPostulante(nuevoPostulante);
@@ -38,13 +40,10 @@ router.get('/postulante', async (req, res) => {
 
 })
 
-//modificable para cualquier parametro
-// busca un postulantes (por el parametro aprobado) 
-router.get('/postulante/buscar', async (req, res) => {
-    const { aprobado_B } = req.query;
-    const postulantes = await getAllPostulantesBysubsidio_E(aprobado_B);
-    res.json(postulantes)
-})
+
+// Devuelve los postulantes aprobados 
+router.get('/GET/aprobado/:id',getPostulantesAprobados.getPostulantesAprobados);
+
 
 //busca las postulaciones por la id de la base de datos
 router.get('/implementos/:id', async (req, res) => {
