@@ -48,55 +48,69 @@ const getPostulantesAprobados = async (req, res) => {
       //Se obtiene la fecha de nacimiento del postulante para calcular su edad
       const birthdate = new Date(postulante.fecha_nacimiento);
       const edad = Math.floor((new Date() - birthdate) / (365.25 * 24 * 60 * 60 * 1000));
-
       //Si el postulante es menor de edad, se rechaza y se pasa al siguiente.
       if (edad < 18) {
-        handleResponse(res, null, 'El postulante no cumple con la edad mínima');
-        return;
-      }
+        continue; // Saltar al siguiente postulante
+      }   
       //En caso de que el postulante elija el subsidio de alimentación, se verifica que se encuentre en el periodo de postulación
-      if (postulante.subsidio_E === "alimentacion") {
-        const fechaPostulacion = new Date(postulante.fecha_postulacion);
+      if (postulante.subsidio_E == "alimentacion") {
+        const fechaPostulacion = postulante.fechaPostulacion;
         const inicioPeriodo = new Date('2023-01-01');
         const finPeriodo = new Date('2023-04-01');
-        
-        //En caso de que los postulantes esten dentro del periodo de postulación, se agregan al arreglo de aprobados
+       
+        //En caso de que los postulantes estén dentro del periodo de postulación, se agregan al arreglo de aprobados
         if (fechaPostulacion >= inicioPeriodo && fechaPostulacion <= finPeriodo) {
           aprobados.push(postulante);
         } else {
-          handleResponse(res, null, 'El postulante no se encuentra en periodo de postulación');
-          return;
+          continue;
         }
-        //En caso de que se elija el subsidio de utilidades o vivienda, se verifica que no exista otro postulante con la misma dirección
-      } else if (postulante.subsidio_E === "utilidades" || postulante.subsidio_E === "vivienda") {
+      } else if (postulante.subsidio_E == "utilidades" ) {//Si el postulante elije el subsidio de utilidades, se verifica que no existan otros postulantes con la misma dirección
         const direccion = postulante.direccion.toLowerCase();
-        const postulantesConMismaDireccion = postulantes.filter((p) => p.direccion.toLowerCase() === direccion);
+        const postulantesConMismaDireccion = postulantes
+          .filter((p) => p.subsidio_E === "utilidades") // Filtrar solo los postulantes con subsidio_E igual a "utilidades"
+          .filter((p) => p.direccion.toLowerCase() === direccion);
 
-        if (postulantesConMismaDireccion.length === 0) {
+        if (postulantesConMismaDireccion.length == 1) {
           aprobados.push(postulante);
         } else {
-          handleResponse(res, null, 'La dirección ya se encuentra registrada');
-          return;
+          continue;
         }
-      } else {
-        handleResponse(res, null, 'Los subsidios ingresados no son válidos');
-        return;
+      } else if( postulante.subsidio_E == "vivienda"  ){//Si el postulante elije el subsidio de vivienda, se verifica que no existan otros postulantes con la misma dirección
+        const direccion = postulante.direccion.toLowerCase();
+        const postulantesConMismaDireccion = postulantes
+          .filter((p) => p.subsidio_E === "vivienda") // Filtrar solo los postulantes con subsidio_E igual a "vivienda"
+          .filter((p) => p.direccion.toLowerCase() === direccion);
+
+        if (postulantesConMismaDireccion.length == 1) {
+          aprobados.push(postulante);
+        } else {
+          continue;
+        }
+
+      }else{ 
+        continue;
       }
     }
-
+    
+    
     // Actualizar el aprobado_B de los aprobados
     await Promise.all(aprobados.map((p) => {
       p.aprobado_B = true;
       return p.save();
     }));
+    
+    const postulantesAprobados = await postulante.find({ aprobado_B: true });
 
-    handleResponse(res, null, null, 'Postulantes aprobados');
+// Enviar la lista de postulantes aprobados como respuesta
+    res.status(200).json(postulantesAprobados);
+
   } catch (error) {
     handleResponse(res, error, null, 'Error al obtener los postulantes');
   }
 };
 
 
+//AAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAA
 
 
 

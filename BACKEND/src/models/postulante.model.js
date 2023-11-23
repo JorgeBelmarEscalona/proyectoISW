@@ -39,6 +39,7 @@ const postulanteSchema = new mongoose.Schema({
   aprobado_B: {
     type: Boolean,
     required: false,
+    default: false,
   },
   
   fechaPostulacion: {
@@ -46,6 +47,12 @@ const postulanteSchema = new mongoose.Schema({
     default:  new Date(),
     required: true,
   },
+  fecha_nacimiento: {
+    type: Date,
+    default:  new Date(),
+    required: true,
+  },
+
 });
 
 const postulante = mongoose.model('postulante', postulanteSchema);
