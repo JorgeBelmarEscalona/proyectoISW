@@ -1,13 +1,79 @@
 <!doctype html>
 <html lang="en">
-  <head>
-    <meta charset="UTF-8" />
-    <link rel="icon" type="image/svg+xml" href="/vite.svg" />
-    <meta name="viewport" content="width=device-width, initial-scale=1.0" />
-    <title>Vite + React</title>
-  </head>
-  <body>
-    <div id="root"></div>
-    <script type="module" src="/src/main.jsx"></script>
-  </body>
+<head>
+    <meta charset="UTF-8">
+    <meta name="viewport" content="width=device-width, initial-scale=1.0">
+    <title>Postulantes Aprobados</title>
+    <style>
+        /* Agregué un estilo para la barra de navegación */
+        nav {
+            background-color: navy;
+            position: fixed;
+            top: 0;
+            left: 0;
+            right: 0;
+            display: flex;
+            justify-content: space-between;
+            padding: 10px;
+        }
+
+        .nav-btn {
+            background-color: transparent;
+            border: none;
+            color: white;
+            cursor: pointer;
+            margin: 0 10px;
+        }
+
+        /* Estilo para el botón desplegable */
+        .dropdown-btn {
+            background-color: transparent;
+            border: none;
+            color: white;
+            cursor: pointer;
+            margin: 0 10px;
+        }
+
+        /* Estilo para el contenido del menú desplegable */
+        .dropdown-content {
+            display: none;
+            position: absolute;
+            background-color: navy;
+            min-width: 160px;
+            box-shadow: 0px 8px 16px 0px rgba(0,0,0,0.2);
+            z-index: 1;
+        }
+
+        .dropdown-content a {
+            color: white;
+            padding: 12px 16px;
+            text-decoration: none;
+            display: block;
+        }
+    </style>
+</head>
+<body>
+    <nav>
+        <!-- Código para la barra de navegación -->
+        <button class="dropdown-btn">Botón desplegable</button>
+        <div class="dropdown-content">
+            <!-- Contenido del menú desplegable -->
+            <a href="#">Opción 1</a>
+            <a href="#">Opción 2</a>
+            <a href="#">Opción 3</a>
+        </div>
+        <button class="nav-btn">Botón 1</button>
+        <button class="nav-btn">Botón 2</button>
+        <button class="nav-btn">Botón 3</button>
+    </nav>
+
+    <section>
+        <h1>Postulantes Aprobados</h1>
+        <ul></ul>
+        <script>
+            // Llama a la función para obtener y mostrar los postulantes aprobados
+            getPostulantesAprobados();
+        </script>
+    </section>
+</body>
 </html>
