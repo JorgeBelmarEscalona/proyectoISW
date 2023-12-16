@@ -1,5 +1,7 @@
+const moment = require('moment');
 const postulante = require('../models/postulante.model');
 const { validate } = require('rut.js');
+
 
 const handleResponse = (res, error, message, successMessage) => {
   if (error) {
@@ -101,8 +103,16 @@ const getPostulantesAprobados = async (req, res) => {
     
     const postulantesAprobados = await postulante.find({ aprobado_B: true });
 
+    // Formatear la fecha de postulación de cada postulante aprobado
+    const postulantesAprobadosConFechaFormateada = postulantesAprobados.map((p) => {
+      return {
+        ...p._doc,
+        fechaPostulacion: moment(p.fechaPostulacion).format('DD-MM-YYYY'),
+      };
+    });
+
 // Enviar la lista de postulantes aprobados como respuesta
-    res.status(200).json(postulantesAprobados);
+res.status(200).json(postulantesAprobadosConFechaFormateada);
 
   } catch (error) {
     handleResponse(res, error, null, 'Error al obtener los postulantes');

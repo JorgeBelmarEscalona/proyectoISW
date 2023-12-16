@@ -2,6 +2,7 @@ import  { useState, useEffect } from 'react';
 import {  Input, VStack,  Heading } from '@chakra-ui/react';
 import { Table, Thead, Tbody, Tr, Th, Td } from "@chakra-ui/react";
 
+
 // Asumiendo que getPostulantesAprobados está importado de alguna parte
 
 
@@ -54,7 +55,7 @@ function Postulantes() {
                         <Th>Nombre</Th>
                         <Th>RUT</Th>
                         <Th>Fecha de Postulación</Th>
-                        <Th>Subsidio</Th>
+                        <Th>Subsidio E</Th>
                         <Th>Estado</Th>
                     </Tr>
                 </Thead>
@@ -63,7 +64,7 @@ function Postulantes() {
                         <Tr key={index}>
                             <Td><Heading fontSize='xl'>{postulante.nombre}</Heading></Td>
                             <Td>{postulante.rut}</Td>
-                            <Td>{new Date(postulante.fechaPostulacion).toLocaleDateString('es-ES')}</Td>
+                            <Td>{postulante.fechaPostulacion}</Td>
                             <Td>{postulante.subsidio_E}</Td>
                             <Td><Heading fontSize='xl'>{"Aprobado"}</Heading></Td>
                         </Tr>
