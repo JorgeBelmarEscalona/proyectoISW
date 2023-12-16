@@ -1,5 +1,7 @@
 // Importa el archivo 'configEnv.js' para cargar las variables de entorno
 const { configEnv } = require('./configEnv.js');
+const cors = require('cors');
+
 
 // Obtiene las variables de entorno
 const { PORT } = configEnv();
@@ -18,7 +20,7 @@ const app = express();
 
 // Agrega el middleware para el manejo de datos en formato JSON
 app.use(express.json());
-
+app.use(cors({ credentials: true, origin: true }));
 app.use(indexRouters);
 
 // Define una ruta para la pÃ¡gina principal de la aplicaciÃ³n ('/')

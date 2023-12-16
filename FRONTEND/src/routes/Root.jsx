@@ -18,7 +18,7 @@ function PageRoot() {
       <Container>
       <Box bgColor={""}>
         <Flex align="center">
-          <Heading color={""}>Tarjeta Vecina</Heading>
+          <Heading color={""}>Subsidio</Heading>
           <IconButton 
             icon={showDetails ? <ChevronUpIcon /> : <ChevronDownIcon />} 
             onClick={() => setShowDetails(!showDetails)}
