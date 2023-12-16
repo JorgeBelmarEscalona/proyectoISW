@@ -1,6 +1,7 @@
 import  { useState, useEffect } from 'react';
-import {  Input, VStack,  Heading } from '@chakra-ui/react';
+import {  Input, VStack, Button,  Heading } from '@chakra-ui/react';
 import { Table, Thead, Tbody, Tr, Th, Td } from "@chakra-ui/react";
+import { Link } from 'react-router-dom';
 
 
 // Asumiendo que getPostulantesAprobados está importado de alguna parte
@@ -41,14 +42,15 @@ function Postulantes() {
     const filteredPostulantes = postulantes.filter(postulante => 
         postulante.nombre.toLowerCase().includes(search.toLowerCase()) ||
         postulante.rut.toLowerCase().includes(search.toLowerCase()) ||
-        postulante.status.name.toLowerCase().includes(search.toLowerCase()) ||
-        new Date(postulante.dateSubmitted).toLocaleDateString().includes(search)
+        postulante.fechaPostulacion.toLowerCase().includes(search.toLowerCase()) ||
+        postulante.subsidio_E.toLowerCase().includes(search.toLowerCase()) 
+
     );
 
     return (
         <div>
         <VStack>
-            <Input placeholder="Busqueda de postulantes" value={search} onChange={handleSearchChange} />
+            <Input placeholder="Buscar postulantes" value={search} onChange={handleSearchChange} />
             <Table variant="simple">
                 <Thead>
                     <Tr>
@@ -71,6 +73,9 @@ function Postulantes() {
                     ))}
                 </Tbody>
             </Table>
+            <Link to="/">
+                <Button colorScheme="blue">Volver al inicio</Button>
+            </Link>
         </VStack>
     </div>
     );
