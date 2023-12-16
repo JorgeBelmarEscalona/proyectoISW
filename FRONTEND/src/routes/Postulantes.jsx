@@ -1,60 +1,51 @@
-import { useState, useEffect } from 'react';
-import { getPostulanteAprobado } from "../services/postulante.service.js";
-import { Badge, Box, Button, Heading, Input, VStack } from '@chakra-ui/react'
-import { useNavigate } from 'react-router-dom';
+import  { useState, useEffect } from 'react';
+import { VStack, Input } from '@chakra-ui/react';
+// Asumiendo que getPostulantesAprobados está importado de alguna parte
+import { getPostulantesAprobados } from '../api';
 
-
-const Forms = () => {
-    const [forms, setForms] = useState([]);
+function Postulantes() {
+    const [postulantes, setPostulantes] = useState([]);
     const [search, setSearch] = useState('');
-    const navigate = useNavigate();
 
     useEffect(() => {
         const fetchData = async () => {
-            const response = await getPostulanteAprobado();
+            const response = await getPostulantesAprobados();
             if (response.state === 'Success' && Array.isArray(response.data)) {
-                setForms(response.data);
+                setPostulantes(response.data);
             } else {
-                console.error('getForms did not return an array');
+                console.error('getPostulantesAprobados did not return an array');
             }
         };
 
         fetchData();
     }, []);
 
-  
-
     const handleSearchChange = (event) => {
         setSearch(event.target.value);
     };
 
-    const filteredForms = forms.filter(form => 
-        form.nombre.toLowerCase().includes(search.toLowerCase()) ||
-        form.rut.toLowerCase().includes(search.toLowerCase()) ||
-        form.status.name.toLowerCase().includes(search.toLowerCase()) ||
-        new Date(form.dateSubmitted).toLocaleDateString().includes(search)
+    const filteredPostulantes = postulantes.filter(postulante => 
+        postulante.nombre.toLowerCase().includes(search.toLowerCase()) ||
+        postulante.rut.toLowerCase().includes(search.toLowerCase()) ||
+        postulante.status.name.toLowerCase().includes(search.toLowerCase()) ||
+        new Date(postulante.dateSubmitted).toLocaleDateString().includes(search)
     );
 
     return (
         <div>
             <VStack>
-            <Input placeholder="Busqueda de postulantes" value={search} onChange={handleSearchChange} />
-            <Box>
-                {filteredForms.map((form, index) => (
-                <div key={index}>
-                    <Box>
-                    <Heading>{form.rut}</Heading>
-                    <p>{form.nombre}</p>
-                    <Badge colorScheme="blue">Estado: {form.status.name}</Badge>
-                  
-                    </Box>
-                </div>
-            ))}
-            </Box>
-            <Button onClick={(()=> navigate('/'))}>volver al inicio</Button>
+                <Input placeholder="Busqueda de postulantes" value={search} onChange={handleSearchChange} />
+                {filteredPostulantes.map((postulante, index) => (
+                    <div key={index}>
+                        <h2>{postulante.nombre}</h2>
+                        <p>{postulante.rut}</p>
+                        <p>{postulante.status.name}</p>
+                        <p>{new Date(postulante.dateSubmitted).toLocaleDateString()}</p>
+                    </div>
+                ))}
             </VStack>
         </div>
     );
-};
+}
 
-export default Forms;
+export default Postulantes;
