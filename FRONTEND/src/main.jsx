@@ -1,31 +1,40 @@
 import ReactDOM from 'react-dom/client';
 import App from './routes/App.jsx';
-import Figma from './routes/Pagina1.jsx';
 import './index.css';
 import { createBrowserRouter, RouterProvider } from 'react-router-dom';
+import { ChakraProvider } from "@chakra-ui/react";
 import ErrorPage from './routes/ErrorPage.jsx';
+import Root from './routes/Root.jsx';
+import Postulantes from './routes/Postulantes.jsx';
 
 
 const router = createBrowserRouter([
   {
     path: '/',
-    element: <App />,
+    element: <Root />,
     errorElement: <ErrorPage />,
     children: [
       {
         path: '/',
         element: <App />,
+        
+      },
+
+      {
+        path: '/postulantesA',
+        element: <Postulantes />,
       },
     ],
   },
+ 
+  
 
-  {
-    path: '/pagina1',
-    element: <Figma />,
-  }
+
 
 ]);
 
 ReactDOM.createRoot(document.getElementById('root')).render(
-  <RouterProvider router={router} />
+  <ChakraProvider>
+    <RouterProvider router={router} />
+  </ChakraProvider>
 );

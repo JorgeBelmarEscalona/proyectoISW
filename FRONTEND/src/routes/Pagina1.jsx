@@ -3,7 +3,7 @@
 function Figma () {
 
     return (
-        <div>
+        <div> 
           <div style={{width: 1434, height: 900, position: 'relative'}}>
   <div style={{width: 1434, height: 900, left: 0, top: 0, position: 'absolute', background: 'white'}} />
   <div style={{width: 1235, height: 84, left: 105, top: 112, position: 'absolute', background: '#FFF7F7', borderRadius: 20}} />
@@ -24,6 +24,8 @@ function Figma () {
     <div style={{width: 434, height: 49, left: 0, top: 0, position: 'absolute', background: '#0064AF', borderRadius: 20}} />
     <div style={{left: 196, top: 14, position: 'absolute', color: '#1E1E1E', fontSize: 18, fontFamily: 'Roboto', fontWeight: '500', wordWrap: 'break-word'}}>Nombre</div>
   </div>
+
+  
   <div style={{width: 151, height: 29, left: 924, top: 248, position: 'absolute', color: '#1E1E1E', fontSize: 18, fontFamily: 'Roboto', fontWeight: '500', wordWrap: 'break-word'}}>Fecha Postulación</div>
   <div style={{width: 193, height: 566, left: 1147, top: 235, position: 'absolute'}}>
     <div style={{width: 193, height: 549, left: 0, top: 17, position: 'absolute'}}>
