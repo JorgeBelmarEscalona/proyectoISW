@@ -1,7 +1,7 @@
 import  { useState, useEffect } from 'react';
-import {  Input, VStack, Button,  Heading, Box } from '@chakra-ui/react';
+import {  Input, VStack, Button,  Heading, Box, Link, Flex } from '@chakra-ui/react';
 import { Table, Thead, Tbody, Tr, Th, Td } from "@chakra-ui/react";
-import { Link } from 'react-router-dom';
+import { Link as RouterLink } from 'react-router-dom';
 import { useBreakpointValue } from "@chakra-ui/react";
 
 
@@ -11,6 +11,7 @@ import { useBreakpointValue } from "@chakra-ui/react";
 function Postulantes() {
     const [postulantes, setPostulantes] = useState([]);
     const [search, setSearch] = useState('');
+    const [error, setError] = useState(false);
     const inputWidth = useBreakpointValue({ base: "200px", md: "500px" });
     const tableFontSize = useBreakpointValue({ base: 'md', md: 'xl' });
 
@@ -38,7 +39,13 @@ function Postulantes() {
 
 
     const handleSearchChange = (event) => {
-        setSearch(event.target.value);
+        const value = event.target.value;
+        if (/[^\w\s]/gi.test(value)) {
+            setError(true);
+        } else {
+            setError(false);
+        }
+        setSearch(value);
     };
 
     const filteredPostulantes = postulantes.filter(postulante => 
@@ -53,17 +60,20 @@ function Postulantes() {
 
 
     return (
-        <div>
+        <Flex direction="column" minHeight="100vh">
             <VStack>
                 <Input
-                    placeholder="Buscar postulantes"
+                    variant="filled"
+                    marginTop="50px"
+                    placeholder="Buscar postulante"
                     value={search}
-                    onChange={handleSearchChange}
-                    mx={{ base: "10px", md: "100px" }}
+                    onInput={handleSearchChange}
+                    mx={{ base: "10px", md: "1500px" }}
                     width={inputWidth}
                     size="md"
+                    borderColor={error ? 'crimson' : undefined}
                 />
-                <Box maxWidth="100%" overflowX="auto">
+                <Box marginTop="50px" maxWidth="100%" overflowX="auto">
                     <Table size="sm" variant="striped">
                         <Thead>
                             <Tr>
@@ -91,11 +101,15 @@ function Postulantes() {
                         </Tbody>
                     </Table>
                 </Box>
-                <Link to="/">
-                    <Button colorScheme="blue">Volver al inicio</Button>
-                </Link>
             </VStack>
-        </div>
+            <Flex justifyContent="center" alignItems="center">
+                <Box marginTop="50px">
+                    <Link as={RouterLink} to="/">
+                        <Button colorScheme="blue">Volver al inicio</Button>
+                    </Link>
+                </Box>
+            </Flex>
+        </Flex>
     );
 
 }
