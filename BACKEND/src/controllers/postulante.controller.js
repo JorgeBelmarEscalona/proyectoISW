@@ -27,13 +27,13 @@ const createPostulante = async (nuevoPostulante) => {
 };
 
 // Controlador para obtener todos los postulantes
-const getAllPostulantes = async (req, res) => {
-try {
-  const postulantes = await postulante.find();
-  res.status(200).json(postulantes);
-} catch (error) {
-  handleResponse(res, error, null, 'Error al obtener los postulantes');
-}
+const getAllPostulantes = async () => {
+  try {
+    const postulantes = await postulante.find();
+    return postulantes;
+  } catch (error) {
+    throw new Error('Error al obtener los postulantes');
+  }
 };
 
 // Controlador para obtener postulantes por subsidio_E

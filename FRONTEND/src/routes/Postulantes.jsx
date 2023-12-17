@@ -27,6 +27,7 @@ function Postulantes() {
     const [showOnlyName, setShowOnlyName] = useState(true);
     const [showOnlyRut, setShowOnlyRut] = useState(true);
     const [showOnlyFecha, setShowOnlyFecha] = useState(true);
+    const clickeado = useState(false);
    
 
     useEffect(() => {
@@ -115,6 +116,31 @@ function Postulantes() {
         doc.save('PostulantesAprobados.pdf');
         };
 
+    const filtroNombre = () => {
+        if (clickeado) {
+            setShowOnlyName(showOnlyName); 
+        }else{
+            setShowOnlyName(!showOnlyName); 
+        }
+       
+    };
+    const filtroRut = () => {
+        if (clickeado) {
+            setShowOnlyRut(showOnlyRut);
+        } else {
+            setShowOnlyRut(!showOnlyRut);
+        }
+    };
+
+    const filtroFecha = () => {
+        if (clickeado) {
+            setShowOnlyFecha(showOnlyFecha);
+        } else {
+            setShowOnlyFecha(!showOnlyFecha);
+        }
+    };
+
+
     return (
         <Flex direction="column" minHeight="100vh">
             <VStack>
@@ -131,15 +157,15 @@ function Postulantes() {
                 />
 
                 <Flex>
-                    <Button size="sm" onClick={() => setShowOnlyName(!showOnlyName)} marginTop="10px" marginRight="5px">
-                        {showOnlyName ? 'Mostrar todos los campos' : 'Mostrar solo el nombre'}
-                    </Button>
-                    <Button size="sm" onClick={() => setShowOnlyRut(!showOnlyRut)} marginTop="10px" marginRight="5px">
-                        {showOnlyRut ? 'Mostrar todos los campos' : 'Mostrar solo el RUT'}
-                    </Button>
-                    <Button size="sm" onClick={() => setShowOnlyFecha(!showOnlyFecha)} marginTop="10px">
-                        {showOnlyFecha ? 'Mostrar todos los campos' : 'Mostrar solo la fecha'}
-                    </Button>
+                <Button size="sm" onClick={filtroNombre} marginTop="10px" marginRight="5px">
+                    {showOnlyName ? 'Mostrar solo el nombre' : 'Mostrar todos los campos'}
+                </Button>
+                <Button size="sm" onClick={filtroRut} marginTop="10px" marginRight="5px">
+                    {showOnlyRut ? 'Mostrar solo el RUT' : 'Mostrar todos los campos '}
+                </Button>
+                <Button size="sm" onClick={filtroFecha} marginTop="10px">
+                    {showOnlyFecha ? 'Mostrar solo la fecha' : 'Mostrar todos los campos '}
+                </Button>
                 </Flex>
 
                 <Box marginTop="50px" maxWidth="100%" overflowX="auto">

@@ -41,10 +41,13 @@ router.post('/postulante', async (req, res) => {
 
 //busca y muestra todos las postulaciones 
 router.get('/postulante', async (req, res) => {
-    const postulantes = await getAllPostulantes(req, res);
-    res.json(postulantes)
-
-})
+  try {
+    const postulantes = await getAllPostulantes();
+    res.status(200).json(postulantes);
+  } catch (error) {
+    res.status(500).json({ message: error.message });
+  }
+});
 
 
 // Devuelve los postulantes aprobados 

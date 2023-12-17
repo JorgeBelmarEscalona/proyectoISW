@@ -1,6 +1,6 @@
 import { Outlet } from 'react-router-dom';
 import { Box,  Flex, Spacer, Switch, Image, useColorMode } from '@chakra-ui/react';
-
+import { useHistory } from 'react-router-dom';
 
 function Root() {
   return (
@@ -8,9 +8,15 @@ function Root() {
   );
 }
 
+
 function PageRoot() {
+  const history = useHistory();
 
   const { colorMode, toggleColorMode } = useColorMode();
+
+  const handleImageClick = () => {
+    history.push('/');
+  };
 
   return (
     <nav>
@@ -21,13 +27,14 @@ function PageRoot() {
             alt="Gobierno de chile"
             ml={50}
             boxSize="100px"
+            onClick={handleImageClick}
           />
           <Spacer />
           <Switch isChecked={colorMode === "dark"} onChange={toggleColorMode} size="lg" mr={50} />
         </Flex>
       </Box>
-    <Outlet />
-  </nav>
+      <Outlet />
+    </nav>
   );
 }
 
