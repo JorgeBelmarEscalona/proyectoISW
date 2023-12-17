@@ -1,8 +1,8 @@
 import  { useState, useEffect } from 'react';
-import {  Input, VStack, Button, Box, Link, Flex } from '@chakra-ui/react';
+import {  Input, VStack, Button, Box, Link, Flex, AlertDialogOverlay, AlertDialogContent, AlertDialogHeader, AlertDialogFooter, AlertDialogBody, AlertDialog } from '@chakra-ui/react';
 import { Table, Thead, Tbody, Tr, Th, Td } from "@chakra-ui/react";
 import { Link as RouterLink } from 'react-router-dom';
-import { useMemo } from 'react';
+import { useMemo, useRef } from 'react';
 import { useBreakpointValue } from "@chakra-ui/react";
 import { jsPDF } from "jspdf";
 import autoTable from "jspdf-autotable";
@@ -18,7 +18,15 @@ function Postulantes() {
     const inputWidth = useBreakpointValue({ base: "200px", md: "500px" });
     const tableFontSize = useBreakpointValue({ base: 'md', md: 'xl' });
     const [sortField, setSortField] = useState(null);
-
+    const [isOpen, setIsOpen] = useState(false);
+    const onClose = () => setIsOpen(false);
+    const cancelRef = useRef();
+    const postulantesAprobados = postulantes.filter(postulante => postulante.aprobado_B).length;
+    const [totalPostulantes, setTotalPostulantes] = useState(0);
+    const porcentajeAprobados = ((postulantesAprobados / totalPostulantes) * 100).toFixed(2);
+    const [showOnlyName, setShowOnlyName] = useState(true);
+    const [showOnlyRut, setShowOnlyRut] = useState(true);
+    const [showOnlyFecha, setShowOnlyFecha] = useState(true);
    
 
     useEffect(() => {
@@ -39,7 +47,26 @@ function Postulantes() {
                 console.error('An error occurred while fetching postulantes:', error);
             }
         };
-    
+
+        const fetchTotalPostulantes = async () => {
+            try {
+              const response = await fetch('http://localhost:3000/postulante/postulante');
+              if (response.ok) {
+                const data = await response.json();
+                if (Array.isArray(data)) {
+                  setTotalPostulantes(data.length);
+                } else {
+                  console.error('Endpoint did not return an array');
+                }
+              } else {
+                console.error('Failed to fetch total postulantes');
+              }
+            } catch (error) {
+              console.error('Failed to fetch total postulantes', error);
+            }
+          };
+
+        fetchTotalPostulantes();
         fetchData();
     }, []);
 
@@ -102,20 +129,39 @@ function Postulantes() {
                     size="md"
                     borderColor={error ? 'crimson' : undefined}
                 />
+
+                <Flex>
+                    <Button size="sm" onClick={() => setShowOnlyName(!showOnlyName)} marginTop="10px" marginRight="5px">
+                        {showOnlyName ? 'Mostrar todos los campos' : 'Mostrar solo el nombre'}
+                    </Button>
+                    <Button size="sm" onClick={() => setShowOnlyRut(!showOnlyRut)} marginTop="10px" marginRight="5px">
+                        {showOnlyRut ? 'Mostrar todos los campos' : 'Mostrar solo el RUT'}
+                    </Button>
+                    <Button size="sm" onClick={() => setShowOnlyFecha(!showOnlyFecha)} marginTop="10px">
+                        {showOnlyFecha ? 'Mostrar todos los campos' : 'Mostrar solo la fecha'}
+                    </Button>
+                </Flex>
+
                 <Box marginTop="50px" maxWidth="100%" overflowX="auto">
                     <Table id="my-table" size="sm" variant="striped">
                         <Thead>
                             <Tr>
-                                <Th fontSize={tableFontSize}>
+                               {showOnlyName && (
+                                    <Th fontSize={tableFontSize}>
                                     <Button variant="link" onClick={() => handleSort('nombre')}>Nombre</Button>
-                                </Th>
-                                <Th fontSize={tableFontSize}>
+                                    </Th>
+                                )}
+                                {showOnlyRut && (
+                                    <Th fontSize={tableFontSize}>
                                     <Button variant="link" onClick={() => handleSort('rut')}>RUT</Button>
-                                </Th>
-                                <Th fontSize={tableFontSize}>
+                                    </Th>
+                                )}
+                                {showOnlyFecha && (
+                                    <Th fontSize={tableFontSize}>
                                     <Button variant="link" onClick={() => handleSort('fechaPostulacion')}>Fecha</Button>
-                                </Th>
-                                <Th fontSize={tableFontSize}>
+                                    </Th>
+                                )}
+                                 <Th fontSize={tableFontSize}>
                                     <Button variant="link" onClick={() => handleSort('subsidio_E')}>Subsidio</Button>
                                 </Th>
                                 <Th fontSize={tableFontSize}>
@@ -126,9 +172,9 @@ function Postulantes() {
                         <Tbody>
                             {sortedPostulantes.map((postulante, index) => (
                                 <Tr key={index}>
-                                    <Td>{postulante.nombre}</Td>
-                                    <Td>{postulante.rut}</Td>
-                                    <Td>{postulante.fechaPostulacion}</Td>
+                                    {showOnlyName && <Td>{postulante.nombre}</Td>}
+                                    {showOnlyRut && <Td>{postulante.rut}</Td>}
+                                    {showOnlyFecha && <Td>{postulante.fechaPostulacion}</Td>}
                                     <Td>{postulante.subsidio_E}</Td>
                                     <Td>
                                         {postulante.aprobado_B ? "Aprobado" : "Rechazado"}
@@ -145,6 +191,30 @@ function Postulantes() {
                         <Button colorScheme="blue">Volver al inicio</Button>
                     </Link>
                     <Button colorScheme="blue" onClick={exportPDF} marginLeft={"100px"} >Generar PDF</Button>
+                    <Button colorScheme="blue" onClick={() => setIsOpen(true)} marginLeft={"100px"} >Ver estadísticas</Button>
+                    <AlertDialog
+                        isOpen={isOpen}
+                        leastDestructiveRef={cancelRef}
+                        onClose={onClose}
+                    >
+                        <AlertDialogOverlay>
+                        <AlertDialogContent>
+                            <AlertDialogHeader fontSize="lg" fontWeight="bold">
+                            Estadísticas de Postulantes
+                            </AlertDialogHeader>
+
+                            <AlertDialogBody>
+                            El porcentaje de postulantes aprobados es {porcentajeAprobados}%.
+                            </AlertDialogBody>
+
+                            <AlertDialogFooter>
+                            <Button ref={cancelRef} onClick={onClose}>
+                                Cerrar
+                            </Button>
+                            </AlertDialogFooter>
+                        </AlertDialogContent>
+                        </AlertDialogOverlay>
+                    </AlertDialog>
                 </Box>
             </Flex>
         </Flex>
