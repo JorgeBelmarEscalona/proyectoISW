@@ -2,6 +2,7 @@ import  { useState, useEffect } from 'react';
 import {  Input, VStack, Button, Box, Link, Flex } from '@chakra-ui/react';
 import { Table, Thead, Tbody, Tr, Th, Td } from "@chakra-ui/react";
 import { Link as RouterLink } from 'react-router-dom';
+import { useMemo } from 'react';
 import { useBreakpointValue } from "@chakra-ui/react";
 
 
@@ -9,11 +10,14 @@ import { useBreakpointValue } from "@chakra-ui/react";
 
 
 function Postulantes() {
-    const [postulantes, setPostulantes] = useState([]);
+    const [ postulantes, setPostulantes] = useState([]);
     const [search, setSearch] = useState('');
     const [error, setError] = useState(false);
     const inputWidth = useBreakpointValue({ base: "200px", md: "500px" });
     const tableFontSize = useBreakpointValue({ base: 'md', md: 'xl' });
+    const [sortField, setSortField] = useState(null);
+
+   
 
     useEffect(() => {
         const fetchData = async () => {
@@ -47,17 +51,32 @@ function Postulantes() {
         }
         setSearch(value);
     };
+    
+    const handleSort = (field) => {
+        setSortField(field);
+    };
 
-    const filteredPostulantes = postulantes.filter(postulante => 
-        postulante.nombre.toLowerCase().includes(search.toLowerCase()) ||
+
+      const filteredPostulantes = useMemo(() => {
+        if (!search) {
+            return postulantes;
+          }
+          return postulantes.filter((postulante) =>postulante.nombre.toLowerCase().includes(search.toLowerCase()) ||
         postulante.rut.toLowerCase().includes(search.toLowerCase()) ||
         postulante.fechaPostulacion.toLowerCase().includes(search.toLowerCase()) ||
         postulante.subsidio_E.toLowerCase().includes(search.toLowerCase()) ||
         (search.toLowerCase() === "aprobado" && postulante.aprobado_B) ||
         (search.toLowerCase() === "rechazado" && !postulante.aprobado_B)
-    );
+        );
+         }, [search, postulantes]);
 
 
+        const sortedPostulantes = useMemo(() => {
+            if (sortField === null) {
+              return filteredPostulantes;
+            }
+            return [...filteredPostulantes].sort((a, b) => (a[sortField] > b[sortField] ? 1 : -1));
+          }, [sortField, filteredPostulantes]);
 
 
     return (
@@ -78,15 +97,25 @@ function Postulantes() {
                     <Table size="sm" variant="striped">
                         <Thead>
                             <Tr>
-                                <Th fontSize={tableFontSize}>Nombre</Th>
-                                <Th fontSize={tableFontSize}>RUT</Th>
-                                <Th fontSize={tableFontSize}>Fecha</Th>
-                                <Th fontSize={tableFontSize}>Subsidio</Th>
-                                <Th fontSize={tableFontSize}>Estado</Th>
+                                <Th fontSize={tableFontSize}>
+                                    <Button variant="link" onClick={() => handleSort('nombre')}>Nombre</Button>
+                                </Th>
+                                <Th fontSize={tableFontSize}>
+                                    <Button variant="link" onClick={() => handleSort('rut')}>RUT</Button>
+                                </Th>
+                                <Th fontSize={tableFontSize}>
+                                    <Button variant="link" onClick={() => handleSort('fechaPostulacion')}>Fecha</Button>
+                                </Th>
+                                <Th fontSize={tableFontSize}>
+                                    <Button variant="link" onClick={() => handleSort('subsidio_E')}>Subsidio</Button>
+                                </Th>
+                                <Th fontSize={tableFontSize}>
+                                    <Button variant="link" onClick={() => handleSort('aprobado_B')}>Estado</Button>
+                                </Th>
                             </Tr>
                         </Thead>
                         <Tbody>
-                            {filteredPostulantes.map((postulante, index) => (
+                            {sortedPostulantes.map((postulante, index) => (
                                 <Tr key={index}>
                                     <Td>{postulante.nombre}</Td>
                                     <Td>{postulante.rut}</Td>
