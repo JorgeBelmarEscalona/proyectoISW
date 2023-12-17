@@ -1,20 +1,28 @@
-import { Box, Button, Center, useColorMode } from "@chakra-ui/react";
+import { Box, Button, Center, Flex, Heading } from "@chakra-ui/react";
 import { useNavigate } from "react-router-dom";
+
+import { Image } from "@chakra-ui/react";
+
 
 function App() {
   const navigate = useNavigate();
-  const { colorMode, toggleColorMode } = useColorMode();
+
   return (
     <Center h="100vh">
-      <Box>
-        <h1>Pagina principal</h1>
-        <h2>Bienvenido a la pagina principal</h2>
-        <Button borderRadius="md" onClick={(()=> navigate ("/postulantesA"))}>Ver Postulaciones</Button>
-        <Button borderRadius="md" colorScheme='blue' size={"md"}>Button</Button>
-        <Button onClick={toggleColorMode}>
-          Cambiar a {colorMode === "light" ? "Dark" : "Light"} Theme
-        </Button>
-      </Box>
+      <Flex direction="column" justify="center" align="center" maxWidth="400px" margin="0 auto">
+        <Box textAlign="center">
+          <Image src="https://www.reddeproteccion.cl/js/theme/img/home/family.svg" alt="Logo" marginTop="10px" />
+          <Heading mb={4}>¡Postula Ahora!</Heading>
+          <Flex justify="center">
+            <Button colorScheme="blue" borderRadius="md" onClick={() => navigate("/postulantesA")}>
+              Postular
+            </Button>
+            <Button marginLeft={"10px"} borderRadius="md" onClick={() => navigate("/postulantesA")}>
+              Ver Postulaciones
+            </Button>
+          </Flex>
+        </Box>
+      </Flex>
     </Center>
   );
 }

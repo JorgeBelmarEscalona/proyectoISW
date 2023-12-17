@@ -1,6 +1,6 @@
 import { Outlet } from 'react-router-dom';
 import { Box,  Flex, Spacer, Switch, Image, useColorMode } from '@chakra-ui/react';
-import { useHistory } from 'react-router-dom';
+import { useNavigate } from 'react-router-dom';
 
 function Root() {
   return (
@@ -10,12 +10,12 @@ function Root() {
 
 
 function PageRoot() {
-  const history = useHistory();
+  const navigate = useNavigate();
 
   const { colorMode, toggleColorMode } = useColorMode();
 
   const handleImageClick = () => {
-    history.push('/');
+    navigate('/');
   };
 
   return (
@@ -25,6 +25,13 @@ function PageRoot() {
           <Image
             src="https://upload.wikimedia.org/wikipedia/commons/a/a2/Logo_Gobierno_de_Chile_Simplificado.svg"
             alt="Gobierno de chile"
+            ml={50}
+            boxSize="100px"
+            onClick={handleImageClick}
+          />
+           <Image
+            src="https://www.reddeproteccion.cl/js/theme/img/redproteccion/logos/logo-rps-claro.svg"
+            alt="Red de proteccion social"
             ml={50}
             boxSize="100px"
             onClick={handleImageClick}
