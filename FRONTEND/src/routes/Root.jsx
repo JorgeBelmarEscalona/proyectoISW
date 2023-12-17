@@ -1,7 +1,6 @@
 import { Outlet } from 'react-router-dom';
-import { Box, Button, Container, Heading, Text, Flex, Spacer, IconButton } from '@chakra-ui/react';
-import { ChevronDownIcon, ChevronUpIcon } from '@chakra-ui/icons';
-import { useState } from 'react';
+import { Box,  Flex, Spacer, Switch, Image, useColorMode } from '@chakra-ui/react';
+
 
 function Root() {
   return (
@@ -11,32 +10,24 @@ function Root() {
 
 function PageRoot() {
 
-  const [showDetails, setShowDetails] = useState(false);
+  const { colorMode, toggleColorMode } = useColorMode();
 
   return (
     <nav>
-      <Container>
       <Box bgColor={""}>
         <Flex align="center">
-          <Heading color={""}>Subsidio</Heading>
-          <IconButton 
-            icon={showDetails ? <ChevronUpIcon /> : <ChevronDownIcon />} 
-            onClick={() => setShowDetails(!showDetails)}
+          <Image
+            src="https://upload.wikimedia.org/wikipedia/commons/a/a2/Logo_Gobierno_de_Chile_Simplificado.svg"
+            alt="Gobierno de chile"
+            ml={50}
+            boxSize="100px"
           />
+          <Spacer />
+          <Switch isChecked={colorMode === "dark"} onChange={toggleColorMode} size="lg" mr={50} />
         </Flex>
-        {showDetails && (
-          <Box mt={2}>
-            <Flex align="center">
-              <Text>Soy un Texto de prueba</Text>
-              <Spacer />
-              <Button >Boton generico</Button>
-            </Flex>
-          </Box>
-        )}
       </Box>
-      </Container>
-      <Outlet />
-    </nav>
+    <Outlet />
+  </nav>
   );
 }
 
