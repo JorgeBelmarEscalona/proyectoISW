@@ -1,5 +1,5 @@
 import  { useState, useEffect } from 'react';
-import {  Input, VStack, Button,  Heading, Box, Link, Flex } from '@chakra-ui/react';
+import {  Input, VStack, Button, Box, Link, Flex } from '@chakra-ui/react';
 import { Table, Thead, Tbody, Tr, Th, Td } from "@chakra-ui/react";
 import { Link as RouterLink } from 'react-router-dom';
 import { useBreakpointValue } from "@chakra-ui/react";
@@ -52,8 +52,9 @@ function Postulantes() {
         postulante.nombre.toLowerCase().includes(search.toLowerCase()) ||
         postulante.rut.toLowerCase().includes(search.toLowerCase()) ||
         postulante.fechaPostulacion.toLowerCase().includes(search.toLowerCase()) ||
-        postulante.subsidio_E.toLowerCase().includes(search.toLowerCase()) 
-
+        postulante.subsidio_E.toLowerCase().includes(search.toLowerCase()) ||
+        (search.toLowerCase() === "aprobado" && postulante.aprobado_B) ||
+        (search.toLowerCase() === "rechazado" && !postulante.aprobado_B)
     );
 
 
@@ -79,22 +80,20 @@ function Postulantes() {
                             <Tr>
                                 <Th fontSize={tableFontSize}>Nombre</Th>
                                 <Th fontSize={tableFontSize}>RUT</Th>
-                                <Th fontSize={tableFontSize}>Fecha de Postulación</Th>
-                                <Th fontSize={tableFontSize}>Subsidio E</Th>
+                                <Th fontSize={tableFontSize}>Fecha</Th>
+                                <Th fontSize={tableFontSize}>Subsidio</Th>
                                 <Th fontSize={tableFontSize}>Estado</Th>
                             </Tr>
                         </Thead>
                         <Tbody>
                             {filteredPostulantes.map((postulante, index) => (
                                 <Tr key={index}>
-                                    <Td>
-                                        <Heading fontSize={tableFontSize}>{postulante.nombre}</Heading>
-                                    </Td>
+                                    <Td>{postulante.nombre}</Td>
                                     <Td>{postulante.rut}</Td>
                                     <Td>{postulante.fechaPostulacion}</Td>
                                     <Td>{postulante.subsidio_E}</Td>
                                     <Td>
-                                        <Heading fontSize={tableFontSize}>{"Aprobado"}</Heading>
+                                        {postulante.aprobado_B ? "Aprobado" : "Rechazado"}
                                     </Td>
                                 </Tr>
                             ))}
