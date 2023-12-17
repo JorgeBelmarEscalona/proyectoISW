@@ -4,6 +4,8 @@ import { Table, Thead, Tbody, Tr, Th, Td } from "@chakra-ui/react";
 import { Link as RouterLink } from 'react-router-dom';
 import { useMemo } from 'react';
 import { useBreakpointValue } from "@chakra-ui/react";
+import { jsPDF } from "jspdf";
+import autoTable from "jspdf-autotable";
 
 
 // Asumiendo que getPostulantesAprobados está importado de alguna parte
@@ -57,27 +59,34 @@ function Postulantes() {
     };
 
 
-      const filteredPostulantes = useMemo(() => {
-        if (!search) {
-            return postulantes;
-          }
-          return postulantes.filter((postulante) =>postulante.nombre.toLowerCase().includes(search.toLowerCase()) ||
-        postulante.rut.toLowerCase().includes(search.toLowerCase()) ||
-        postulante.fechaPostulacion.toLowerCase().includes(search.toLowerCase()) ||
-        postulante.subsidio_E.toLowerCase().includes(search.toLowerCase()) ||
-        (search.toLowerCase() === "aprobado" && postulante.aprobado_B) ||
-        (search.toLowerCase() === "rechazado" && !postulante.aprobado_B)
-        );
-         }, [search, postulantes]);
+    const filteredPostulantes = useMemo(() => {
+    if (!search) {
+        return postulantes;
+        }
+        return postulantes.filter((postulante) =>postulante.nombre.toLowerCase().includes(search.toLowerCase()) ||
+    postulante.rut.toLowerCase().includes(search.toLowerCase()) ||
+    postulante.fechaPostulacion.toLowerCase().includes(search.toLowerCase()) ||
+    postulante.subsidio_E.toLowerCase().includes(search.toLowerCase()) ||
+    (search.toLowerCase() === "aprobado" && postulante.aprobado_B) ||
+    (search.toLowerCase() === "rechazado" && !postulante.aprobado_B)
+    );
+        }, [search, postulantes]);
 
 
-        const sortedPostulantes = useMemo(() => {
-            if (sortField === null) {
-              return filteredPostulantes;
-            }
-            return [...filteredPostulantes].sort((a, b) => (a[sortField] > b[sortField] ? 1 : -1));
-          }, [sortField, filteredPostulantes]);
+    const sortedPostulantes = useMemo(() => {
+        if (sortField === null) {
+            return filteredPostulantes;
+        }
+        return [...filteredPostulantes].sort((a, b) => (a[sortField] > b[sortField] ? 1 : -1));
+        }, [sortField, filteredPostulantes]);
 
+
+    const exportPDF = () => {
+        const doc = new jsPDF();
+        const table = document.getElementById('my-table');
+        autoTable(doc, { html: table });
+        doc.save('PostulantesAprobados.pdf');
+        };
 
     return (
         <Flex direction="column" minHeight="100vh">
@@ -94,7 +103,7 @@ function Postulantes() {
                     borderColor={error ? 'crimson' : undefined}
                 />
                 <Box marginTop="50px" maxWidth="100%" overflowX="auto">
-                    <Table size="sm" variant="striped">
+                    <Table id="my-table" size="sm" variant="striped">
                         <Thead>
                             <Tr>
                                 <Th fontSize={tableFontSize}>
@@ -131,10 +140,11 @@ function Postulantes() {
                 </Box>
             </VStack>
             <Flex justifyContent="center" alignItems="center">
-                <Box marginTop="50px">
+                <Box marginTop="50px" display="flex" justifyContent="center">
                     <Link as={RouterLink} to="/">
                         <Button colorScheme="blue">Volver al inicio</Button>
                     </Link>
+                    <Button colorScheme="blue" onClick={exportPDF} marginLeft={"100px"} >Generar PDF</Button>
                 </Box>
             </Flex>
         </Flex>
