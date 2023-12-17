@@ -1,7 +1,8 @@
 import  { useState, useEffect } from 'react';
-import {  Input, VStack, Button,  Heading } from '@chakra-ui/react';
+import {  Input, VStack, Button,  Heading, Box } from '@chakra-ui/react';
 import { Table, Thead, Tbody, Tr, Th, Td } from "@chakra-ui/react";
 import { Link } from 'react-router-dom';
+import { useBreakpointValue } from "@chakra-ui/react";
 
 
 // Asumiendo que getPostulantesAprobados está importado de alguna parte
@@ -10,7 +11,8 @@ import { Link } from 'react-router-dom';
 function Postulantes() {
     const [postulantes, setPostulantes] = useState([]);
     const [search, setSearch] = useState('');
-
+    const inputWidth = useBreakpointValue({ base: "200px", md: "500px" });
+    const tableFontSize = useBreakpointValue({ base: 'md', md: 'xl' });
 
     useEffect(() => {
         const fetchData = async () => {
@@ -47,38 +49,55 @@ function Postulantes() {
 
     );
 
+
+
+
     return (
         <div>
-        <VStack>
-            <Input placeholder="Buscar postulantes" value={search} onChange={handleSearchChange} />
-            <Table variant="simple">
-                <Thead>
-                    <Tr>
-                        <Th>Nombre</Th>
-                        <Th>RUT</Th>
-                        <Th>Fecha de Postulación</Th>
-                        <Th>Subsidio E</Th>
-                        <Th>Estado</Th>
-                    </Tr>
-                </Thead>
-                <Tbody>
-                    {filteredPostulantes.map((postulante, index) => (
-                        <Tr key={index}>
-                            <Td><Heading fontSize='xl'>{postulante.nombre}</Heading></Td>
-                            <Td>{postulante.rut}</Td>
-                            <Td>{postulante.fechaPostulacion}</Td>
-                            <Td>{postulante.subsidio_E}</Td>
-                            <Td><Heading fontSize='xl'>{"Aprobado"}</Heading></Td>
-                        </Tr>
-                    ))}
-                </Tbody>
-            </Table>
-            <Link to="/">
-                <Button colorScheme="blue">Volver al inicio</Button>
-            </Link>
-        </VStack>
-    </div>
+            <VStack>
+                <Input
+                    placeholder="Buscar postulantes"
+                    value={search}
+                    onChange={handleSearchChange}
+                    mx={{ base: "10px", md: "100px" }}
+                    width={inputWidth}
+                    size="md"
+                />
+                <Box maxWidth="100%" overflowX="auto">
+                    <Table size="sm" variant="striped">
+                        <Thead>
+                            <Tr>
+                                <Th fontSize={tableFontSize}>Nombre</Th>
+                                <Th fontSize={tableFontSize}>RUT</Th>
+                                <Th fontSize={tableFontSize}>Fecha de Postulación</Th>
+                                <Th fontSize={tableFontSize}>Subsidio E</Th>
+                                <Th fontSize={tableFontSize}>Estado</Th>
+                            </Tr>
+                        </Thead>
+                        <Tbody>
+                            {filteredPostulantes.map((postulante, index) => (
+                                <Tr key={index}>
+                                    <Td>
+                                        <Heading fontSize={tableFontSize}>{postulante.nombre}</Heading>
+                                    </Td>
+                                    <Td>{postulante.rut}</Td>
+                                    <Td>{postulante.fechaPostulacion}</Td>
+                                    <Td>{postulante.subsidio_E}</Td>
+                                    <Td>
+                                        <Heading fontSize={tableFontSize}>{"Aprobado"}</Heading>
+                                    </Td>
+                                </Tr>
+                            ))}
+                        </Tbody>
+                    </Table>
+                </Box>
+                <Link to="/">
+                    <Button colorScheme="blue">Volver al inicio</Button>
+                </Link>
+            </VStack>
+        </div>
     );
+
 }
 
 export default Postulantes;
