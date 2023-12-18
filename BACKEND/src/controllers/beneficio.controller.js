@@ -53,27 +53,48 @@ exports.createBeneficio = async (req, res) => {
     try {
         const monto = req.body.monto_b;
         const tipoBeneficio = req.body.type_b.toLowerCase();
+        const idBeneficio = req.body.id_beneficio;
+        const nombreBeneficio = req.body.nombre_b;
+        const fecha = moment(req.body.fecha_b, 'DD-MM-YYYY');
 
-        //Se verifica si es que el tipo de beneficio es utilidades, vivienda o alimentacion
+        // Check if idBeneficio is a negative number
+        if (idBeneficio < 0) {
+            return res.status(400).json({ message: 'El id_beneficio no puede ser un número negativo' });
+        }
+
+        // Verify if the type of beneficio is utilidades, vivienda, or alimentacion
         if (tipoBeneficio === "utilidades" || tipoBeneficio === "vivienda" || tipoBeneficio === "alimentacion") {
             
-            //Se verifica si el monto ingresado es válido para el tipo de beneficio proporcionado
+            // Verify if the entered monto is valid for the provided type of beneficio
             if (tipoBeneficio === "utilidades" && monto >= 1000 && monto <= 5000000) {
-                beneficio.fecha_b = moment(beneficio.fecha_b).format('DD-MM-YYYY');
-                const newBeneficio = await beneficio.save();
-                res.status(201).json({ message: 'Utilidad encontrada', beneficio: newBeneficio });
+                if (fecha.isValid() && fecha.isBetween('2000-01-01', moment().format('YYYY-MM-DD'))) {
+                    beneficio.fecha_b = fecha.format('DD-MM-YYYY');
+                    beneficio.nombre_b = nombreBeneficio.replace(/[^a-zA-Z0-9]/g, ''); // Remove special characters from nombre_b
+                    const newBeneficio = await beneficio.save();
+                    res.status(201).json({ message: 'Utilidad encontrada', beneficio: newBeneficio });
+                } else {
+                    res.status(400).json({ message: 'La fecha ingresada no es válida' });
+                }
 
-            //Se verifica si el monto ingresado es válido para el tipo de beneficio proporcionado
             } else if (tipoBeneficio === "vivienda" && monto >= 7269430 && monto <= 79903670) {
-                beneficio.fecha_b = moment(beneficio.fecha_b).format('DD-MM-YYYY');
-                const newBeneficio = await beneficio.save();
-                res.status(201).json({ message: 'Vivienda encontrada', beneficio: newBeneficio });
+                if (fecha.isValid() && fecha.isBetween('2000-01-01', moment().format('YYYY-MM-DD'))) {
+                    beneficio.fecha_b = fecha.format('DD-MM-YYYY');
+                    beneficio.nombre_b = nombreBeneficio.replace(/[^a-zA-Z0-9]/g, ''); // Remove special characters from nombre_b
+                    const newBeneficio = await beneficio.save();
+                    res.status(201).json({ message: 'Vivienda encontrada', beneficio: newBeneficio });
+                } else {
+                    res.status(400).json({ message: 'La fecha ingresada no es válida' });
+                }
 
-            //Se verifica si el monto ingresado es válido para el tipo de beneficio proporcionado
             } else if (tipoBeneficio === "alimentacion" && monto >= 5000 && monto <= 1000000) {
-                beneficio.fecha_b = moment(beneficio.fecha_b).format('DD-MM-YYYY');
-                const newBeneficio = await beneficio.save();
-                res.status(201).json({ message: 'Alimentacion encontrada', beneficio: newBeneficio });
+                if (fecha.isValid() && fecha.isBetween('2000-01-01', moment().format('YYYY-MM-DD'))) {
+                    beneficio.fecha_b = fecha.format('DD-MM-YYYY');
+                    beneficio.nombre_b = nombreBeneficio.replace(/[^a-zA-Z0-9]/g, ''); // Remove special characters from nombre_b
+                    const newBeneficio = await beneficio.save();
+                    res.status(201).json({ message: 'Alimentacion encontrada', beneficio: newBeneficio });
+                } else {
+                    res.status(400).json({ message: 'La fecha ingresada no es válida' });
+                }
             } else {
                 res.status(400).json({ message: 'El monto ingresado no es válido para el tipo de beneficio proporcionado' });
             }
