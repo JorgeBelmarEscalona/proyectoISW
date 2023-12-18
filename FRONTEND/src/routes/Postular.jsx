@@ -11,6 +11,7 @@ const formPostulante = (props) => {
         estadoCivil: "",
         discapacidad: "",
         subsidio_E: "",
+        fecha_nacimiento: "",
     });
 
     const handleInputChange = (event) => {
@@ -29,6 +30,7 @@ const formPostulante = (props) => {
             estadoCivil: "",
             discapacidad: "",
             subsidio_E: "",
+            fecha_nacimiento: "",
         });  
     };
 
@@ -65,6 +67,21 @@ const formPostulante = (props) => {
                 name="rut"
                 id="rut"
                 value={formData.rut}
+                onChange={handleInputChange}
+                required
+            />
+        </center>
+    </div>
+    <div>
+        <center>
+            <label htmlFor="fecha_nacimiento">Fecha de Nacimiento:</label>
+            <Input
+                type="date"
+                name="fecha_nacimiento"
+                id="fecha_nacimiento"
+                value={formData.fecha_nacimiento}
+                min="1920-01-01" 
+                max="2006-12-31"
                 onChange={handleInputChange}
                 required
             />

@@ -45,7 +45,6 @@ const postulanteSchema = new mongoose.Schema({
   },
   fecha_nacimiento: {
     type: Date,
-    default:  new Date(),
     required: true,
   },
 
