@@ -37,7 +37,7 @@ function Postulantes() {
     useEffect(() => {
         const fetchData = async () => {
             try {
-                const response = await fetch('http://localhost:3000/postulante/GET/aprobado');
+                const response = await fetch('http://146.83.198.35:1662/postulante/GET/aprobado');
                 if (response.ok) {
                     const data = await response.json();
                     if (Array.isArray(data)) {
@@ -55,7 +55,7 @@ function Postulantes() {
 
         const fetchTotalPostulantes = async () => {
             try {
-              const response = await fetch('http://localhost:3000/postulante/postulante');
+              const response = await fetch('http://146.83.198.35:1662/postulante/postulante');
               if (response.ok) {
                 const data = await response.json();
                 if (Array.isArray(data)) {
