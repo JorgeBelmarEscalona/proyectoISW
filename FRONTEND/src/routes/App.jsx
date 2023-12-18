@@ -14,7 +14,7 @@ function App() {
           <Image src="https://www.reddeproteccion.cl/js/theme/img/home/family.svg" alt="Logo" marginTop="10px" />
           <Heading mb={4}>¡Postula Ahora!</Heading>
           <Flex justify="center">
-            <Button colorScheme="blue" borderRadius="md" onClick={() => navigate("/postulaciones")}>
+            <Button colorScheme="blue" borderRadius="md" onClick={() => navigate("/postular")}>
               Postular
             </Button>
             <Button marginLeft={"10px"} borderRadius="md" onClick={() => navigate("/postulantesA")}>

@@ -1,6 +1,6 @@
-import React, {useState} from "react";
+import React, {Fragment, useState} from "react";
 
-const{createPostulante} = require("../api/postulante");
+// import {createPostulante} from "../api/postulante";
 
 const formPostulante = (props) => {
     const [formData, setFormdata] = useState({
@@ -21,7 +21,7 @@ const formPostulante = (props) => {
 
     const handleSubmit = async (event) => {
         event.preventDefault();
-        await createPostulante(formData);
+        // await createPostulante(formData);
         setFormdata({
             nombre: "",
             rut: "",
@@ -36,8 +36,16 @@ const formPostulante = (props) => {
     };
 
     return (
-        <form className="inline-form" onSubmit={handleSubmit}>
-            <label htmlFor="nombre">Nombre:</label>
+
+
+
+<div>
+    
+    <form className="inline-form" onSubmit={handleSubmit}>
+    <center>
+        <div>
+            <h1>Ingrese sus Datos </h1>
+                <label htmlFor="nombre">Nombre:</label>
             <input
                 type="text"
                 name="nombre"
@@ -46,7 +54,11 @@ const formPostulante = (props) => {
                 onChange={handleInputChange}
                 required
             />
-            <label htmlFor="rut">Rut:</label>
+        </div>
+    </center>
+    <div>
+        <center>
+        <label htmlFor="rut">Rut:</label>
             <input
                 type="text"
                 name="rut"
@@ -55,7 +67,11 @@ const formPostulante = (props) => {
                 onChange={handleInputChange}
                 required
             />
-            <label htmlFor="direccion">Direccion:</label>
+        </center>
+    </div>
+    <div>
+        <center>
+        <label htmlFor="direccion">Direccion:</label>
             <input
                 type="text"
                 name="direccion"
@@ -64,9 +80,13 @@ const formPostulante = (props) => {
                 onChange={handleInputChange}
                 required
             />
-            <label htmlFor="Sexo">Sexo:</label>
+        </center>
+    </div>
+    <div>
+        <center>
+        <label htmlFor="sexo">Sexo:</label>
             <select 
-            name="Sexo" 
+            name="sexo" 
             id="sexo"
             value={formData.sexo}
             onChange={handleInputChange}
@@ -76,10 +96,13 @@ const formPostulante = (props) => {
                 <option value="Femenino">Femenino</option>
                 <option value="Masculino">Masculino</option>
             </select>
-
-            <label htmlFor="Estado Civil">Estado Civil:</label>
+        </center>
+    </div>
+    <div>
+    <center>
+        <label htmlFor="estadoCivil">Estado Civil:</label>
             <select
-            name="Estado Civil"
+            name="estadoCivil"
             id="estadoCivil"
             value={formData.estadoCivil}
             onChange={handleInputChange}
@@ -91,10 +114,14 @@ const formPostulante = (props) => {
                 <option value="Viudo">Viudo</option>
                 <option value="Divorciado">Divorciado</option>
             </select>
+    </center>
+    </div>
 
-            <label htmlFor="Discapacidad">Discapacidad:</label>
+    <div>
+        <center>
+        <label htmlFor="discapacidad">Discapacidad:</label>
             <select
-            name="Discapacidad"
+            name="discapacidad"
             id="discapacidad"
             value={formData.discapacidad}
             onChange={handleInputChange}
@@ -104,26 +131,36 @@ const formPostulante = (props) => {
                 <option value="Si">Si</option>
                 <option value="No">No</option>
             </select>
-
-            <label htmlFor="Subsidio">Subsidio:</label>
+        </center>
+    </div>
+            
+        <div>
+            <center>
+            <label htmlFor="subsidio_E">Subsidio:</label>
             <select
-            name="Subsidio"
+            name="subsidio_E"
             id="subsidio_E"
             value={formData.subsidio_E}
             onChange={handleInputChange}
-            required
+            
             >
-                // falta un get de subsidio
-                // FAVOR DEJARLO COMO UN SELECT VACIO
-                //HASTA QUE SE HAGA EL GET
-
                 <option value="">Seleccionar</option>
-                <option value="Si">Si</option>
-                <option value="No">No</option>
+                <option value="Alimentacion">Alimentacion</option>
+                <option value="Utilidades">Utilidades</option>
+                <option value="Vivienda">Vivienda</option>
             </select>
-
+            </center>
+        </div>
+            
+        <div>
+            <center>
             <button type="submit">Guardar</button>
+            </center>
+        </div>
+            
         </form>
+</div>
+        
     );
 };
 
