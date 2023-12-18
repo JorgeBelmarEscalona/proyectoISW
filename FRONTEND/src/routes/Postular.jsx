@@ -11,7 +11,6 @@ const formPostulante = (props) => {
         estadoCivil: "",
         discapacidad: "",
         subsidio_E: "",
-        aprobado_B: "",
     });
 
     const handleInputChange = (event) => {
@@ -30,7 +29,6 @@ const formPostulante = (props) => {
             estadoCivil: "",
             discapacidad: "",
             subsidio_E: "",
-            aprobado_B: "",
         });  
     };
 
