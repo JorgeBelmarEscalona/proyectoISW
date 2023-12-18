@@ -16,7 +16,9 @@ router.post('/postulante', async (req, res) => {
         discapacidad,
         subsidio_E,
         aprobado_B,
+        fecha_nacimiento,
       } = req.body;
+      
       // Crear un nuevo postulante
       const nuevoPostulante = new postulante({
         nombre,
@@ -27,7 +29,7 @@ router.post('/postulante', async (req, res) => {
         discapacidad,
         subsidio_E,
         aprobado_B,
-        fechaPostulacion: "2023-01-02"
+        fecha_nacimiento,
       });
       
       // Guardar el postulante en la base de datos

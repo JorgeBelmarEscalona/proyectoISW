@@ -7,6 +7,7 @@ import ErrorPage from './routes/ErrorPage.jsx';
 import Root from './routes/Root.jsx';
 import Postulantes from './routes/Postulantes.jsx';
 import Todospostulantes from './routes/TodosPostulantes.jsx';
+import Postular from './routes/Postular.jsx';
 
 
 const router = createBrowserRouter([
@@ -30,7 +31,10 @@ const router = createBrowserRouter([
         path: '/postulantes',
         element: < Todospostulantes/>,
       },
-
+      {
+        path: '/postular',
+        element: < Postular/>,
+      },
 
     ],
   },
