@@ -6,6 +6,7 @@ import { ChakraProvider } from "@chakra-ui/react";
 import ErrorPage from './routes/ErrorPage.jsx';
 import Root from './routes/Root.jsx';
 import Postulantes from './routes/Postulantes.jsx';
+import Todospostulantes from './routes/TodosPostulantes.jsx';
 
 
 const router = createBrowserRouter([
@@ -24,6 +25,13 @@ const router = createBrowserRouter([
         path: '/postulantesA',
         element: <Postulantes />,
       },
+
+      {
+        path: '/postulantes',
+        element: < Todospostulantes/>,
+      },
+
+
     ],
   },
  

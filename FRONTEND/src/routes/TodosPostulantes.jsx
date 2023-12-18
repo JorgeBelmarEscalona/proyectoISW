@@ -6,13 +6,14 @@ import { useMemo, useRef } from 'react';
 import { useBreakpointValue } from "@chakra-ui/react";
 import { jsPDF } from "jspdf";
 import autoTable from "jspdf-autotable";
+import moment from 'moment';
 import { useNavigate } from "react-router-dom";
 
 
 // Asumiendo que getPostulantesAprobados está importado de alguna parte
 
 
-function Postulantes() {
+function TodosPostulantes() {
     const [ postulantes, setPostulantes] = useState([]);
     const [search, setSearch] = useState('');
     const [error, setError] = useState(false);
@@ -37,7 +38,7 @@ function Postulantes() {
     useEffect(() => {
         const fetchData = async () => {
             try {
-                const response = await fetch('http://localhost:3000/postulante/GET/aprobado');
+                const response = await fetch('http://localhost:3000/postulante/postulante');
                 if (response.ok) {
                     const data = await response.json();
                     if (Array.isArray(data)) {
@@ -71,9 +72,14 @@ function Postulantes() {
             }
           };
 
+
+
         fetchTotalPostulantes();
         fetchData();
     }, []);
+
+   
+      
 
 
     const handleSearchChange = (event) => {
@@ -199,7 +205,7 @@ function Postulantes() {
                 <Button size="sm" onClick={filtroFecha} marginTop="10px">
                     {ClickedFecha ? 'Mostrar todos los campos' : ' Mostrar por fecha '}
                 </Button>
-                <Button size="sm" colorScheme= "blue" marginTop="10px" marginLeft="5px" onClick={() => navigate("/postulantes")}>Ver Postulaciones</Button>
+                <Button size="sm" colorScheme= "blue"marginTop="10px" marginLeft="5px" onClick={() => navigate("/postulantesA")}>Ver Postulaciones Aprobadas </Button>
                 </Flex>
 
                 <Box marginTop="50px" maxWidth="100%" overflowX="auto">
@@ -234,7 +240,7 @@ function Postulantes() {
                                 <Tr key={index}>
                                     {showName && <Td>{postulante.nombre}</Td>}
                                     {showRut && <Td>{postulante.rut}</Td>}
-                                    {showFecha && <Td>{postulante.fechaPostulacion}</Td>}
+                                    {showFecha && <Td>{moment(postulante.fechaPostulacion).format('DD-MM-YYYY')}</Td>}
                                     <Td>{postulante.subsidio_E}</Td>
                                     <Td>
                                         {postulante.aprobado_B ? "Aprobado" : "Rechazado"}
@@ -251,7 +257,7 @@ function Postulantes() {
                         <Button colorScheme="blue">Volver al inicio</Button>
                     </Link>
                     <Button colorScheme="blue" onClick={exportPDF} marginLeft={"100px"} >Generar PDF</Button>
-                  
+                   
                     <Button colorScheme="blue" onClick={() => setIsOpen(true)} marginLeft={"100px"} >Ver estadísticas</Button>
                     <AlertDialog
                         isOpen={isOpen}
@@ -276,6 +282,7 @@ function Postulantes() {
                         </AlertDialogContent>
                         </AlertDialogOverlay>
                     </AlertDialog>
+                 
                 </Box>
             </Flex>
         </Flex>
@@ -283,4 +290,4 @@ function Postulantes() {
 
 }
 
-export default Postulantes;
+export default TodosPostulantes;

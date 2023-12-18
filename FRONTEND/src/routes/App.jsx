@@ -18,6 +18,9 @@ function App() {
               Postular
             </Button>
             <Button marginLeft={"10px"} borderRadius="md" onClick={() => navigate("/postulantesA")}>
+              Ver Postulaciones Aprobadas
+            </Button>
+            <Button marginLeft={"10px"} borderRadius="md" onClick={() => navigate("/postulantes")}>
               Ver Postulaciones
             </Button>
           </Flex>
