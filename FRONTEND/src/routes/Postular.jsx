@@ -1,6 +1,6 @@
 import React, {Fragment, useState} from "react";
-
-// import {createPostulante} from "../api/postulante";
+import {Button, Select, Input } from "@chakra-ui/react";
+import createPostulante from "../api/postulante";
 
 const formPostulante = (props) => {
     const [formData, setFormdata] = useState({
@@ -21,7 +21,7 @@ const formPostulante = (props) => {
 
     const handleSubmit = async (event) => {
         event.preventDefault();
-        // await createPostulante(formData);
+        await createPostulante(formData);
         setFormdata({
             nombre: "",
             rut: "",
@@ -32,7 +32,6 @@ const formPostulante = (props) => {
             subsidio_E: "",
             aprobado_B: "",
         });  
-        props.onSave();
     };
 
     return (
@@ -41,12 +40,16 @@ const formPostulante = (props) => {
 
 <div>
     
-    <form className="inline-form" onSubmit={handleSubmit}>
+    <form
+        className="inline-form"
+        onSubmit={handleSubmit}
+        style={{ width: "60%", margin: "0 auto"}}
+    >
     <center>
         <div>
             <h1>Ingrese sus Datos </h1>
                 <label htmlFor="nombre">Nombre:</label>
-            <input
+            <Input
                 type="text"
                 name="nombre"
                 id="nombre"
@@ -59,7 +62,7 @@ const formPostulante = (props) => {
     <div>
         <center>
         <label htmlFor="rut">Rut:</label>
-            <input
+            <Input
                 type="text"
                 name="rut"
                 id="rut"
@@ -72,7 +75,7 @@ const formPostulante = (props) => {
     <div>
         <center>
         <label htmlFor="direccion">Direccion:</label>
-            <input
+            <Input
                 type="text"
                 name="direccion"
                 id="direccion"
@@ -85,7 +88,7 @@ const formPostulante = (props) => {
     <div>
         <center>
         <label htmlFor="sexo">Sexo:</label>
-            <select 
+            <Select 
             name="sexo" 
             id="sexo"
             value={formData.sexo}
@@ -95,13 +98,13 @@ const formPostulante = (props) => {
                 <option value="">Seleccionar</option>
                 <option value="Femenino">Femenino</option>
                 <option value="Masculino">Masculino</option>
-            </select>
+            </Select>
         </center>
     </div>
     <div>
     <center>
         <label htmlFor="estadoCivil">Estado Civil:</label>
-            <select
+            <Select
             name="estadoCivil"
             id="estadoCivil"
             value={formData.estadoCivil}
@@ -113,14 +116,14 @@ const formPostulante = (props) => {
                 <option value="Casado">Casado</option>
                 <option value="Viudo">Viudo</option>
                 <option value="Divorciado">Divorciado</option>
-            </select>
+            </Select>
     </center>
     </div>
 
     <div>
         <center>
         <label htmlFor="discapacidad">Discapacidad:</label>
-            <select
+            <Select
             name="discapacidad"
             id="discapacidad"
             value={formData.discapacidad}
@@ -130,14 +133,14 @@ const formPostulante = (props) => {
                 <option value="">Seleccionar</option>
                 <option value="Si">Si</option>
                 <option value="No">No</option>
-            </select>
+            </Select>
         </center>
     </div>
             
         <div>
             <center>
             <label htmlFor="subsidio_E">Subsidio:</label>
-            <select
+            <Select
             name="subsidio_E"
             id="subsidio_E"
             value={formData.subsidio_E}
@@ -148,13 +151,18 @@ const formPostulante = (props) => {
                 <option value="Alimentacion">Alimentacion</option>
                 <option value="Utilidades">Utilidades</option>
                 <option value="Vivienda">Vivienda</option>
-            </select>
+            </Select>
             </center>
         </div>
             
         <div>
             <center>
-            <button type="submit">Guardar</button>
+                	<Button 
+                        colorScheme="blue" 
+                        borderRadius="md" 
+                        type="submit"
+
+                        >Guardar</Button>
             </center>
         </div>
             
