@@ -18,19 +18,22 @@ const postulanteSchema = new mongoose.Schema({
   sexo: {
     type: String,
     required: true,
+    enum: ['Masculino', 'Femenino'],
   },
   estadoCivil: {
     type: String,
     required: true,
-    
+    enum: ['viudo', 'soltero', 'casado', 'separado', 'divorciado'],
   },
   discapacidad: {
     type: String,
     required: true,
+    enum: ['si', 'no'],
   },
   subsidio_E: {
     type: String,
     required: false,
+    enum: ['Vivienda', 'Alimentacion', 'Utilidades']  ,
   },    
   aprobado_B: {
     type: Boolean,
