@@ -1,5 +1,7 @@
 import { useRouteError } from 'react-router-dom';
 
+import { Box, Image } from '@chakra-ui/react';
+
 const ErrorPage = () => {
   const error = useRouteError();
 
@@ -15,10 +17,19 @@ const ErrorPage = () => {
   });
 
   return (
-    <div>
-      <h1>Oops!</h1>
-      <p>Sorry, un error inesperado a ocurrido.</p>
-    </div>
+    <Box
+      display="flex"
+      justifyContent="center"
+      alignItems="center"
+      height="100vh"
+      textAlign="center"
+    >
+      <Box>
+        <h1>Oops!</h1>
+        <p>Sorry, the page you are looking for could not be found.</p>
+        <Image src="https://i.pinimg.com/564x/24/ea/74/24ea74ca6e25174ec0a9b52795a390f3.jpg" alt="Error Image" />
+      </Box>
+    </Box>
   );
 };
 
