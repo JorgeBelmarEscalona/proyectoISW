@@ -201,51 +201,55 @@ function Postulantes() {
                 </Button>
                 <Button size="sm" colorScheme= "blue" marginTop="10px" marginLeft="5px" onClick={() => navigate("/postulantes")}>Ver Postulaciones</Button>
                 </Flex>
-
-                <Box marginTop="50px" maxWidth="100%" overflowX="auto">
-                    <Table id="my-table" size="sm" variant="striped">
-                        <Thead>
-                            <Tr>
-                               {showName && (
-                                    <Th fontSize={tableFontSize}>
-                                    <Button variant="link" onClick={() => handleSort('nombre')}>Nombre</Button>
-                                    </Th>
-                                )}
-                                {showRut && (
-                                    <Th fontSize={tableFontSize}>
-                                    <Button variant="link" onClick={() => handleSort('rut')}>RUT</Button>
-                                    </Th>
-                                )}
-                                {showFecha && (
-                                    <Th fontSize={tableFontSize}>
-                                    <Button variant="link" onClick={() => handleSort('fechaPostulacion')}>Fecha</Button>
-                                    </Th>
-                                )}
-                                 <Th fontSize={tableFontSize}>
-                                    <Button variant="link" onClick={() => handleSort('subsidio_E')}>Subsidio</Button>
-                                </Th>
-                                <Th fontSize={tableFontSize}>
-                                    <Button variant="link" onClick={() => handleSort('aprobado_B')}>Estado</Button>
-                                </Th>
-                            </Tr>
-                        </Thead>
-                        <Tbody>
-                            {sortedPostulantes.map((postulante, index) => (
-                                <Tr key={index}>
-                                    {showName && <Td>{postulante.nombre}</Td>}
-                                    {showRut && <Td>{postulante.rut}</Td>}
-                                    {showFecha && <Td>{postulante.fechaPostulacion}</Td>}
-                                    <Td>{postulante.subsidio_E}</Td>
-                                    <Td>
-                                        {postulante.aprobado_B ? "Aprobado" : "Rechazado"}
-                                    </Td>
-                                </Tr>
-                            ))}
-                        </Tbody>
-                    </Table>
-                </Box>
+                <Flex maxW={['100%']} justifyContent="center">
+                    <Box marginTop="50px" maxWidth="100%" overflowX="auto">
+                        <Box  borderWidth='1px' borderRadius='lg' overflow='hidden'>
+                            <Table id="my-table" size="sm" variant="striped">
+                                <Thead>
+                                    <Tr>
+                                        {showName && (
+                                            <Th fontSize={tableFontSize}>
+                                                <Button variant="link" onClick={() => handleSort('nombre')}>Nombre</Button>
+                                            </Th>
+                                        )}
+                                        {showRut && (
+                                            <Th fontSize={tableFontSize}>
+                                                <Button variant="link" onClick={() => handleSort('rut')}>RUT</Button>
+                                            </Th>
+                                        )}
+                                        {showFecha && (
+                                            <Th fontSize={tableFontSize}>
+                                                <Button variant="link" onClick={() => handleSort('fechaPostulacion')}>Fecha</Button>
+                                            </Th>
+                                        )}
+                                        <Th fontSize={tableFontSize}>
+                                            <Button variant="link" onClick={() => handleSort('subsidio_E')}>Subsidio</Button>
+                                        </Th>
+                                        <Th fontSize={tableFontSize}>
+                                            <Button variant="link" onClick={() => handleSort('aprobado_B')}>Estado</Button>
+                                        </Th>
+                                    </Tr>
+                                </Thead>
+                                <Tbody>
+                                    {sortedPostulantes.map((postulante, index) => (
+                                        <Tr key={index}>
+                                            {showName && <Td>{postulante.nombre}</Td>}
+                                            {showRut && <Td>{postulante.rut}</Td>}
+                                            {showFecha && <Td>{postulante.fechaPostulacion}</Td>}
+                                            <Td>{postulante.subsidio_E}</Td>
+                                            <Td>
+                                                {postulante.aprobado_B ? "Aprobado" : "Rechazado"}
+                                            </Td>
+                                        </Tr>
+                                    ))}
+                                </Tbody>
+                            </Table>
+                        </Box>
+                    </Box>
+                </Flex>
             </VStack>
             <Flex justifyContent="center" alignItems="center">
+                
                 <Box marginTop="50px" display="flex" justifyContent="center">
                     <Link as={RouterLink} to="/">
                         <Button colorScheme="blue">Volver al inicio</Button>
